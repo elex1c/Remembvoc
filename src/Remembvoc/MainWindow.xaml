@@ -9,6 +9,22 @@
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
     
+    <Window.Resources>
+        
+        <Style x:Key="titleBarButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#bbbfbc"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Firebrick"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -18,15 +34,11 @@
 
         <StackPanel Background="#484a48" Orientation="Horizontal" 
                     HorizontalAlignment="Right" VerticalAlignment="Stretch">
-            <Button x:Name="btnMinimize" Content="_" 
-                    Width="50" Background="Transparent" 
-                    BorderBrush="Transparent" Foreground="#bbbfbc" 
-                    Height="30" Click="btnMinimize_Click"
-                    FontSize="18"/>
-            <Button x:Name="btnClose" Content="X" 
-                    Width="50" Background="Transparent" 
-                    BorderBrush="Transparent" Foreground="#bbbfbc" 
-                    Height="30" Click="btnClose_Click"/>
+            <Button x:Name="btnMinimize" Style="{StaticResource titleBarButtonStyle}"
+                    Content="_" FontSize="18"
+                    Click="btnMinimize_Click"/>
+            <Button x:Name="btnClose" Style="{StaticResource titleBarButtonStyle}" 
+                    Content="X" Click="btnClose_Click"/>
         </StackPanel>
     </Grid>
 </Window>
