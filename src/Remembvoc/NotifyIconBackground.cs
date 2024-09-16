@@ -6,17 +6,13 @@ namespace Remembvoc;
 
 public class NotifyIconBackground : IDisposable
 {
-    private readonly Window _window;
+    private MainWindow? _window;
 
-    public bool IsClosedByBackground;
     private Forms.NotifyIcon _trayIcon;
     private Forms.ContextMenuStrip  _trayMenu;
-    
-    public NotifyIconBackground()
-    {
-        CreateTrayIcon();
-    }
-    
+
+    public NotifyIconBackground() => CreateTrayIcon();
+
     private void CreateTrayIcon()
     {
         _trayMenu = new Forms.ContextMenuStrip();
@@ -42,25 +38,34 @@ public class NotifyIconBackground : IDisposable
 
     private void ShowWindow()
     {
+        if (_window == null) return;
+
         if (_window.WindowState == WindowState.Minimized)
         {
             _window.WindowState = WindowState.Normal;
         }
         _window.Activate();
     }
-    
+
     private void OnOpen(object? sender, EventArgs e)
     {
+        if (_window == null)
+        {
+            _window = new MainWindow();
+            _window.Visibility = Visibility.Visible;
+        }
+
         ShowWindow();
     }
 
     private void OnExit(object? sender, EventArgs e)
     {
         _trayIcon.Visible = false;
-        IsClosedByBackground = true;
         Application.Current.Shutdown();
     }
     
+    public void SetWindow(MainWindow? window) => _window = window;
+
     public void Dispose()
     {
         _trayIcon.Dispose();

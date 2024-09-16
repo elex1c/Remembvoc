@@ -7,7 +7,7 @@ namespace Remembvoc;
 /// </summary>
 public partial class App : Application
 {
-    public readonly NotifyIconBackground BackgroundIcon;
+    public readonly NotifyIconBackground BackgroundIcon = new ();
     
     protected override void OnExit(ExitEventArgs e)
     {

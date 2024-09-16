@@ -11,5 +11,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        ((App)Application.Current).BackgroundIcon.SetWindow(this);
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        ((App)Application.Current).BackgroundIcon.SetWindow(null);
+
+        base.OnClosed(e);
     }
 }
