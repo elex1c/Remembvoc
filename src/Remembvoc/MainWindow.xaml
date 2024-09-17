@@ -10,6 +10,7 @@
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
+
         <ControlTemplate x:Key="titleButton" TargetType="Button">
             <Grid>
                 <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
@@ -21,18 +22,19 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Background="#484a48" Orientation="Horizontal" 
+            <StackPanel Background="#484a48" Orientation="Horizontal" 
                     HorizontalAlignment="Right" VerticalAlignment="Stretch">
-            
-            <Button x:Name="btnMinimize" Content="_" 
+                
+                <Button x:Name="btnMinimize" Content="_" 
                     Width="50" Background="Transparent" 
                     BorderBrush="Transparent" Foreground="#bbbfbc" 
                     Height="30" Click="btnMinimize_Click"
@@ -41,7 +43,6 @@
                     Width="50" Background="Transparent" 
                     BorderBrush="Transparent" Foreground="#bbbfbc" 
                     Height="30" Click="btnClose_Click" Template="{StaticResource titleButton}"/>
-            
         </StackPanel>
     </Grid>
 </Window>
