@@ -8,7 +8,20 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
-    
+
+    <Window.Resources>
+        <ControlTemplate x:Key="titleButton" TargetType="Button">
+            <Grid>
+                <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="backgroundElement" Value="#d6200f"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -18,15 +31,17 @@
 
         <StackPanel Background="#484a48" Orientation="Horizontal" 
                     HorizontalAlignment="Right" VerticalAlignment="Stretch">
+            
             <Button x:Name="btnMinimize" Content="_" 
                     Width="50" Background="Transparent" 
                     BorderBrush="Transparent" Foreground="#bbbfbc" 
                     Height="30" Click="btnMinimize_Click"
-                    FontSize="18"/>
+                    FontSize="18" Template="{StaticResource titleButton}"/>
             <Button x:Name="btnClose" Content="X" 
                     Width="50" Background="Transparent" 
                     BorderBrush="Transparent" Foreground="#bbbfbc" 
-                    Height="30" Click="btnClose_Click"/>
+                    Height="30" Click="btnClose_Click" Template="{StaticResource titleButton}"/>
+            
         </StackPanel>
     </Grid>
 </Window>
