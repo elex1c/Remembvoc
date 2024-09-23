@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Remembvoc;
@@ -8,11 +8,24 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private ObservableCollection<FileName> ItemsSource;
+
     public MainWindow()
     {
         InitializeComponent();
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
+
+        #region Test data settings
+
+        ItemsSource = new ObservableCollection<FileName> 
+        {
+            new () { Word = "Hello", Language = "ENG" },
+            new () { Word = "Ahoj", Language = "CES" },
+        };
+        myList.ItemsSource = ItemsSource;
+        
+        #endregion
     }
 
     protected override void OnClosed(EventArgs e)

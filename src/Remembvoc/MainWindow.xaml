@@ -60,6 +60,11 @@
                     <TabItem.Header>
                         <TextBlock Text="Vocabulary"/>
                     </TabItem.Header>
+                    
+                    <ListView x:Name="listView">
+                        
+                    </ListView>
+                    
                 </TabItem>
 
                 <TabItem x:Name="tabItemSearch">
