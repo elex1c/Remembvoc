@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Remembvoc;
@@ -8,11 +8,20 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public ObservableCollection<FileName> ItemsSource;
+
     public MainWindow()
     {
         InitializeComponent();
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
+
+        ItemsSource = new ObservableCollection<FileName> 
+        {
+            new () { Word = "Hello", Language = "ENG" },
+            new () { Word = "Ahoj", Language = "CES" },
+        };
+        myList.ItemsSource = ItemsSource;
     }
 
     protected override void OnClosed(EventArgs e)

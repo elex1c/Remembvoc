@@ -57,9 +57,26 @@
             <TabControl x:Name="mainTabControl">
                 
                 <TabItem x:Name="tabItemVocabulary">
+                    
                     <TabItem.Header>
                         <TextBlock Text="Vocabulary"/>
                     </TabItem.Header>
+
+                    <ListView x:Name="myList">
+
+                        <ListView.View>
+                            
+                            <GridView>
+                                <GridViewColumn Header="Word" DisplayMemberBinding="{Binding Word}"
+                                                Width="225"/>
+                                <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language}"
+                                                Width="225"/>
+                            </GridView>
+                            
+                        </ListView.View>
+
+                    </ListView>
+
                 </TabItem>
 
                 <TabItem x:Name="tabItemSearch">
