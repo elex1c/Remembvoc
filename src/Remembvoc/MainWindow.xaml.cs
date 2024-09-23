@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Remembvoc.Models;
 
 namespace Remembvoc;
 
@@ -8,7 +9,7 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private ObservableCollection<FileName> ItemsSource;
+    private ObservableCollection<Models.Word> ItemsSource;
 
     public MainWindow()
     {
@@ -18,10 +19,10 @@ public partial class MainWindow : Window
 
         #region Test data settings
 
-        ItemsSource = new ObservableCollection<FileName> 
+        ItemsSource = new ObservableCollection<Models.Word> 
         {
-            new () { Word = "Hello", Language = "ENG" },
-            new () { Word = "Ahoj", Language = "CES" },
+            new () { Phrase = "Hello", Language = Languages.ENG },
+            new () { Phrase = "Ahoj", Language = Languages.CES },
         };
         myList.ItemsSource = ItemsSource;
         
