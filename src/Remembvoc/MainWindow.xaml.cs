@@ -24,7 +24,7 @@ public partial class MainWindow : Window
             new () { Phrase = "Hello", Language = Languages.ENG },
             new () { Phrase = "Ahoj", Language = Languages.CES },
         };
-        myList.ItemsSource = ItemsSource;
+        myDG.ItemsSource = ItemsSource;
         
         #endregion
     }
