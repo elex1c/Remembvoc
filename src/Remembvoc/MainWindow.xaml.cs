@@ -9,7 +9,6 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public ObservableCollection<FileName> ItemsSource;
     private ObservableCollection<Models.Word> ItemsSource;
 
     public MainWindow()
