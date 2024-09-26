@@ -68,12 +68,19 @@
                         <TextBlock Text="Vocabulary"/>
                     </TabItem.Header>
                     
-                    <DataGrid Name="myDG" AutoGenerateColumns="False">
+                    <DataGrid Name="myDG" AutoGenerateColumns="False"
+                              CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
-                                                Width="300"/>
-                            <DataGridComboBoxColumn Header="Language" SelectedItemBinding="{Binding Language}"
-                                                ItemsSource="{Binding Source={StaticResource languageEnum}}" Width="150"/>
+                                                Width="300" FontSize="16"/>
+                            <DataGridTemplateColumn Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox SelectedItem="{Binding Language}" FontSize="16"
+                                                  ItemsSource="{Binding Source={StaticResource languageEnum}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                    

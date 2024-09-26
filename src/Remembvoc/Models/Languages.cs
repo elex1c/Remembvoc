@@ -2,53 +2,54 @@ namespace Remembvoc.Models;
 
 public enum Languages
 {
-    ENG,  // English
-    RUS,  // Russian
-    CES,  // Czech
-    DEU,  // German
-    FRA,  // French
-    ESP,  // Spanish
-    ITA,  // Italian
-    CHN,  // Chinese
-    JPN,  // Japanese
-    KOR,  // Korean
-    POR,  // Portuguese
     ARA,  // Arabic
-    HIN,  // Hindi
-    NLD,  // Dutch
-    SWE,  // Swedish
-    NOR,  // Norwegian
-    FIN,  // Finnish
-    DAN,  // Danish
-    POL,  // Polish
-    UKR,  // Ukrainian
+    AFR,  // Afrikaans
+    BEN,  // Bengali
     BEL,  // Belarusian
+    BUL,  // Bulgarian
+    CES,  // Czech
+    CHN,  // Chinese
+    DAN,  // Danish
+    DEU,  // German
+    ENG,  // English
+    EST,  // Estonian
+    ESP,  // Spanish
+    FIL,  // Filipino
+    FIN,  // Finnish
+    FRA,  // French
     GRE,  // Greek
     HEB,  // Hebrew
-    TUR,  // Turkish
-    VIE,  // Vietnamese
-    THA,  // Thai
-    HUN,  // Hungarian
-    ROM,  // Romanian
-    SRP,  // Serbian
-    BUL,  // Bulgarian
+    HIN,  // Hindi
     HRV,  // Croatian
-    SLO,  // Slovenian
-    SLK,  // Slovak
+    HUN,  // Hungarian
+    IND,  // Indonesian
+    ITA,  // Italian
+    JPN,  // Japanese
+    KOR,  // Korean
     LAT,  // Latvian
     LIT,  // Lithuanian
-    EST,  // Estonian
-    IND,  // Indonesian
     MAL,  // Malay
-    FIL,  // Filipino
-    ZUL,  // Zulu
-    XHO,  // Xhosa
-    AFR,  // Afrikaans
+    MAR,  // Marathi
+    NLD,  // Dutch
+    NOR,  // Norwegian
+    POL,  // Polish
+    POR,  // Portuguese
+    PUN,  // Punjabi
+    ROM,  // Romanian
+    RUS,  // Russian
+    SRP,  // Serbian
+    SLO,  // Slovenian
+    SLK,  // Slovak
     SWA,  // Swahili
-    URD,  // Urdu
+    SWE,  // Swedish
     TAM,  // Tamil
     TEL,  // Telugu
-    MAR,  // Marathi
-    BEN,  // Bengali
-    PUN   // Punjabi
+    THA,  // Thai
+    TUR,  // Turkish
+    UDR,  // Urdu
+    UKR,  // Ukrainian
+    VIE,  // Vietnamese
+    XHO,  // Xhosa
+    ZUL   // Zulu
+
 }
