@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Remembvoc.Models;
 
 namespace Remembvoc;
 
@@ -9,6 +10,7 @@ namespace Remembvoc;
 public partial class MainWindow : Window
 {
     public ObservableCollection<FileName> ItemsSource;
+    private ObservableCollection<Models.Word> ItemsSource;
 
     public MainWindow()
     {
@@ -16,12 +18,16 @@ public partial class MainWindow : Window
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
 
-        ItemsSource = new ObservableCollection<FileName> 
+        #region Test data settings
+
+        ItemsSource = new ObservableCollection<Models.Word> 
         {
-            new () { Word = "Hello", Language = "ENG" },
-            new () { Word = "Ahoj", Language = "CES" },
+            new () { Phrase = "Hello", Language = Languages.ENG },
+            new () { Phrase = "Ahoj", Language = Languages.CES },
         };
-        myList.ItemsSource = ItemsSource;
+        myDG.ItemsSource = ItemsSource;
+        
+        #endregion
     }
 
     protected override void OnClosed(EventArgs e)

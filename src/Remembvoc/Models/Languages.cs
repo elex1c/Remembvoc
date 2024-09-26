@@ -1,0 +1,54 @@
+namespace Remembvoc.Models;
+
+public enum Languages
+{
+    ENG,  // English
+    RUS,  // Russian
+    CES,  // Czech
+    DEU,  // German
+    FRA,  // French
+    ESP,  // Spanish
+    ITA,  // Italian
+    CHN,  // Chinese
+    JPN,  // Japanese
+    KOR,  // Korean
+    POR,  // Portuguese
+    ARA,  // Arabic
+    HIN,  // Hindi
+    NLD,  // Dutch
+    SWE,  // Swedish
+    NOR,  // Norwegian
+    FIN,  // Finnish
+    DAN,  // Danish
+    POL,  // Polish
+    UKR,  // Ukrainian
+    BEL,  // Belarusian
+    GRE,  // Greek
+    HEB,  // Hebrew
+    TUR,  // Turkish
+    VIE,  // Vietnamese
+    THA,  // Thai
+    HUN,  // Hungarian
+    ROM,  // Romanian
+    SRP,  // Serbian
+    BUL,  // Bulgarian
+    HRV,  // Croatian
+    SLO,  // Slovenian
+    SLK,  // Slovak
+    LAT,  // Latvian
+    LIT,  // Lithuanian
+    EST,  // Estonian
+    IND,  // Indonesian
+    MAL,  // Malay
+    FIL,  // Filipino
+    ZUL,  // Zulu
+    XHO,  // Xhosa
+    AFR,  // Afrikaans
+    SWA,  // Swahili
+    URD,  // Urdu
+    TAM,  // Tamil
+    TEL,  // Telugu
+    MAR,  // Marathi
+    BEN,  // Bengali
+    PUN   // Punjabi
+}
