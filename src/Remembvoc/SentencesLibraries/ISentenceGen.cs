@@ -4,6 +4,5 @@ namespace Remembvoc.SentencesLibraries;
 
 public interface ISentenceGen
 {
-    public string API_KEY { get; set; }
-    public string Generate(string word, Languages language);
+    public Task<string?> Generate(string word, Languages language);
 }

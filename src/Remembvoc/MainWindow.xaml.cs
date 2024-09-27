@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Remembvoc.Models;
+using Remembvoc.SentencesLibraries;
 
 namespace Remembvoc;
 
