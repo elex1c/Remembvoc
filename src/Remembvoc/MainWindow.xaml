@@ -29,7 +29,6 @@
                 <x:Type Type="local:Models.Languages"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-       
     </Window.Resources>
 
     <Grid>
@@ -68,22 +67,45 @@
                         <TextBlock Text="Vocabulary"/>
                     </TabItem.Header>
                     
-                    <DataGrid Name="myDG" AutoGenerateColumns="False"
-                              CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
-                                                Width="300" FontSize="16"/>
-                            <DataGridTemplateColumn Width="150">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox SelectedItem="{Binding Language}" FontSize="16"
-                                                  ItemsSource="{Binding Source={StaticResource languageEnum}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                   
+                    <Grid>
+                            
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="475"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                            
+                        <DataGrid Name="myDG" AutoGenerateColumns="False"
+                                  CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
+                                                    Width="300" FontSize="22"/>
+                                <DataGridTemplateColumn Width="110" Header="Language">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox SelectedItem="{Binding Language}" FontSize="16"
+                                                      ItemsSource="{Binding Source={StaticResource languageEnum}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="40" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="X" Name="btnDelWord"
+                                                    Click="BtnDelWord_OnClick" Tag="{Binding Phrase}"
+                                                    Padding="0" Foreground="Brown"
+                                                    Background="Transparent" BorderThickness="0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                            
+                        <Button Grid.Row="1" Content="Add new word"
+                                Width="250"/>
+                            
+                    </Grid>
+                    
                 </TabItem>
 
                 <TabItem x:Name="tabItemSearch">

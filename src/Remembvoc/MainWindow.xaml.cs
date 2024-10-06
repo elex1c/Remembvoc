@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Forms;
 using Remembvoc.Models;
 using Remembvoc.SentencesLibraries;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Remembvoc;
 
@@ -24,6 +27,15 @@ public partial class MainWindow : Window
         {
             new () { Phrase = "Hello", Language = Languages.ENG },
             new () { Phrase = "Ahoj", Language = Languages.CES },
+            new () { Phrase = "Bonjour", Language = Languages.FRA },
+            new () { Phrase = "Ciao", Language = Languages.ITA },
+            new () { Phrase = "Hallo", Language = Languages.DEU },
+            new () { Phrase = "ПриветПриветПриветПриветПриветПривет", Language = Languages.RUS },
+            new () { Phrase = "你好", Language = Languages.CHN },
+            new () { Phrase = "こんにちは", Language = Languages.JPN },
+            new () { Phrase = "안녕하세요", Language = Languages.KOR },
+            new () { Phrase = "Merhaba", Language = Languages.TUR },
+            new () { Phrase = "Salam", Language = Languages.ARA }
         };
         myDG.ItemsSource = ItemsSource;
         
@@ -44,7 +56,16 @@ public partial class MainWindow : Window
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
+        ISentenceGen gen = new LIamaGen();
+        gen.Generate("Počítač", Languages.CES);
+        
         Close();
+    }
+
+    private void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
+    {
+        var button = sender as System.Windows.Controls.Button;
+        MessageBox.Show(button!.Tag.ToString());
     }
 
     private void btnMinimize_Click(object sender, RoutedEventArgs e)
