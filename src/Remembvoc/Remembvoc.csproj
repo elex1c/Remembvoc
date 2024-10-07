@@ -16,6 +16,11 @@
 
     <ItemGroup>
       <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci753" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-rc.1.24451.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-rc.1.24451.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     </ItemGroup>
 
@@ -24,6 +29,9 @@
       <Content Include="Icons\Error.ico">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Update="database.db">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
