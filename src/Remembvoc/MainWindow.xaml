@@ -102,7 +102,8 @@
                         </DataGrid>
                             
                         <Button Grid.Row="1" Content="Add new word"
-                                Width="250"/>
+                                Width="250" Name="btnAddNewWord"
+                                Click="BtnAddNewWord_OnClick"/>
                             
                     </Grid>
                     

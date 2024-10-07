@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Forms;
+using Remembvoc.AdditionalWindows;
 using Remembvoc.Models;
 using Remembvoc.SentencesLibraries;
 using Application = System.Windows.Application;
@@ -13,33 +14,16 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private ObservableCollection<Models.Word> ItemsSource;
-
+    private ObservableCollection<Word> ItemsSource;
+    public DatabaseContext DbContext { get; set; }
+    
     public MainWindow()
     {
         InitializeComponent();
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
-
-        #region Test data settings
-
-        ItemsSource = new ObservableCollection<Models.Word> 
-        {
-            new () { Phrase = "Hello", Language = Languages.ENG },
-            new () { Phrase = "Ahoj", Language = Languages.CES },
-            new () { Phrase = "Bonjour", Language = Languages.FRA },
-            new () { Phrase = "Ciao", Language = Languages.ITA },
-            new () { Phrase = "Hallo", Language = Languages.DEU },
-            new () { Phrase = "ПриветПриветПриветПриветПриветПривет", Language = Languages.RUS },
-            new () { Phrase = "你好", Language = Languages.CHN },
-            new () { Phrase = "こんにちは", Language = Languages.JPN },
-            new () { Phrase = "안녕하세요", Language = Languages.KOR },
-            new () { Phrase = "Merhaba", Language = Languages.TUR },
-            new () { Phrase = "Salam", Language = Languages.ARA }
-        };
-        myDG.ItemsSource = ItemsSource;
         
-        #endregion
+        DbContext = ((App)Application.Current).DatabaseContext;
     }
 
     protected override void OnClosed(EventArgs e)
@@ -62,14 +46,20 @@ public partial class MainWindow : Window
         Close();
     }
 
+    private void btnMinimize_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+
     private void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
     {
         var button = sender as System.Windows.Controls.Button;
         MessageBox.Show(button!.Tag.ToString());
     }
 
-    private void btnMinimize_Click(object sender, RoutedEventArgs e)
+    private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
     {
-        WindowState = WindowState.Minimized;
+        OneBoxOneButton w = new ("Add new word");
+        w.ShowDialog();
     }
 }
