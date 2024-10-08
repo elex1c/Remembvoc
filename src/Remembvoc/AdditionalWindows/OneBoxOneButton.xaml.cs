@@ -5,10 +5,17 @@ namespace Remembvoc.AdditionalWindows;
 
 public partial class OneBoxOneButton : Window
 {
+    private Action<DatabaseContext, string> ButtonAction { get; set; }
+    private DatabaseContext _dbContext { get; set; }
+    
     public string ButtonText { get; set; }
-    public OneBoxOneButton(string btnText)
+    public string UserInput { get; set; }
+    
+    public OneBoxOneButton(string btnText, DatabaseContext context, Action<DatabaseContext, string> action)
     {
         ButtonText = btnText;
+        ButtonAction = action;
+        _dbContext = context;
         
         InitializeComponent();
 
@@ -24,4 +31,6 @@ public partial class OneBoxOneButton : Window
     {
         DragMove();
     }
+
+    private void Button_OnClick(object sender, RoutedEventArgs e) => ButtonAction.Invoke(_dbContext, tbUserInput.Text);
 }

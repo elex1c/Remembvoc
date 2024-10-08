@@ -59,7 +59,7 @@ public partial class MainWindow : Window
 
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
     {
-        OneBoxOneButton w = new ("Add new word");
+        OneBoxOneButton w = new ("Add new word", DbContext, (context, s) => { });
         w.ShowDialog();
     }
 }
