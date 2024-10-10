@@ -22,7 +22,7 @@ public class LIamaGen : ISentenceGen
 
             Request request = new()
             {
-                messages = [new Request.Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". I want you to just send a sentence", role = "user" }],
+                messages = [new Request.Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". I want you to just send a sentence. If you have some problems with generating, please, just sent 'ERROR'", role = "user" }],
                 model = MODEL,
                 max_tokens = 1024,
                 temperature = 1,

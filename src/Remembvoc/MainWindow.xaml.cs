@@ -24,9 +24,8 @@ public partial class MainWindow : Window
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
 
         #region Test Settings
-
-        ISentenceGen gen = new LIamaGen();
-        gen.Generate("ředkev", Languages.CES);
+        
+        
 
         #endregion
 
@@ -47,7 +46,7 @@ public partial class MainWindow : Window
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
         ISentenceGen gen = new LIamaGen();
-        gen.Generate("Počítač", Languages.CES);
+        gen.Generate("ЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪ", Languages.Italian);
         
         Close();
     }
@@ -65,7 +64,7 @@ public partial class MainWindow : Window
 
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
     {
-        OneBoxOneButton w = new ("Add new word", DbContext, (context, s) => { });
+        AddNewWordWindow w = new ("Add new word", DbContext);
         w.ShowDialog();
     }
 }

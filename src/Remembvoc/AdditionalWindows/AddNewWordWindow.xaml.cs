@@ -1,27 +1,29 @@
 using System.Windows;
 using System.Windows.Input;
+using Remembvoc.Models.ApplicationModels;
+using Languages = Remembvoc.Models.Languages;
 
 namespace Remembvoc.AdditionalWindows;
 
-public partial class OneBoxOneButton : Window
+public partial class AddNewWordWindow : Window
 {
     private Action<DatabaseContext, string> ButtonAction { get; set; }
-    private DatabaseContext _dbContext { get; set; }
-    
+    public List<string> Languages { get; set; }
     public string ButtonText { get; set; }
+    public DatabaseContext Context { get; }
     public string UserInput { get; set; }
     
-    public OneBoxOneButton(string btnText, DatabaseContext context, Action<DatabaseContext, string> action)
+    public AddNewWordWindow(string btnText, DatabaseContext context)
     {
         ButtonText = btnText;
-        ButtonAction = action;
-        _dbContext = context;
+        Context = context;
+        Languages = Enum.GetNames(typeof(Languages)).ToList();
         
         InitializeComponent();
 
         DataContext = this;
     }
-
+    
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
         Close();
@@ -32,5 +34,8 @@ public partial class OneBoxOneButton : Window
         DragMove();
     }
 
-    private void Button_OnClick(object sender, RoutedEventArgs e) => ButtonAction.Invoke(_dbContext, tbUserInput.Text);
+    private void Button_OnClick(object sender, RoutedEventArgs e)
+    {
+        
+    }
 }

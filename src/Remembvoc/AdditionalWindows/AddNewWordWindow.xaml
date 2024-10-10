@@ -1,4 +1,4 @@
-<Window x:Class="Remembvoc.AdditionalWindows.OneBoxOneButton"
+<Window x:Class="Remembvoc.AdditionalWindows.AddNewWordWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
@@ -26,12 +26,11 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
-        <ObjectDataProvider x:Key="languageEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type Type="{x:Type models:Languages}"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        
+        <Style x:Key="DefaultControlStyle" TargetType="TextBox"
+               BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="BorderBrush" Value="#7f8182"/>
+        </Style>
     </Window.Resources>
     
     <Border CornerRadius="15">
@@ -57,12 +56,14 @@
             <TextBox Grid.Row="1" Width="200"
                      Height="40" Foreground="#7f8182"
                      BorderBrush="#7f8182" FontSize="18"
-                     Padding="0 10 0 0" Name="tbUserInput">
+                     Padding="0 10 0 0" Name="tbUserInput"
+                     Style="{StaticResource DefaultControlStyle}">
             </TextBox>
         
-            <ComboBox Grid.Row="2" SelectedItem="{Binding Language, Mode=TwoWay}"
-                      FontSize="16" ItemsSource="{Binding Source={StaticResource languageEnum}}"
-                      Width="75" BorderBrush="#7f8182"/>
+            <ComboBox Grid.Row="2" FontSize="16"
+                      Width="130" BorderBrush="#7f8182"
+                      ItemsSource="{Binding Languages}"
+                      Foreground="#7f8182" Name="cbLanguage"/>
             
             <Button Grid.Row="3" Name="btnMainButton"
                     Width="150" Background="Transparent"
