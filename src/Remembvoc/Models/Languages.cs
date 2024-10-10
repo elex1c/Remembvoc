@@ -51,5 +51,4 @@ public enum Languages
     VIE,  // Vietnamese
     XHO,  // Xhosa
     ZUL   // Zulu
-
 }

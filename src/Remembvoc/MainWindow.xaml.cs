@@ -22,8 +22,14 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
-        
-        DbContext = ((App)Application.Current).DatabaseContext;
+
+        #region Test Settings
+
+        ISentenceGen gen = new LIamaGen();
+        gen.Generate("ředkev", Languages.CES);
+
+        #endregion
+
     }
 
     protected override void OnClosed(EventArgs e)

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Remembvoc"
+        xmlns:models="clr-namespace:Remembvoc.Models"
         mc:Ignorable="d" Background="#2d2e30"
         Title="OneBoxOneButton" Height="200" Width="300" AllowsTransparency="True"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
@@ -25,10 +26,10 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        
+
         <ObjectDataProvider x:Key="languageEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type Type="local:Models.Languages"/> 
+                <x:Type Type="{x:Type models:Languages}"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
