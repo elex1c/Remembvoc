@@ -10,13 +10,13 @@ public partial class AddNewWordWindow : Window
     private Action<DatabaseContext, string> ButtonAction { get; set; }
     public List<string> Languages { get; set; }
     public string ButtonText { get; set; }
-    public DatabaseContext Context { get; }
+    private DatabaseContext DbContext { get; }
     public string UserInput { get; set; }
     
     public AddNewWordWindow(string btnText, DatabaseContext context)
     {
         ButtonText = btnText;
-        Context = context;
+        DbContext = context;
         Languages = Enum.GetNames(typeof(Languages)).ToList();
         
         InitializeComponent();
@@ -36,6 +36,18 @@ public partial class AddNewWordWindow : Window
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
-        
+
+        int langId = DbContext.Languages
+            .FirstOrDefault(x => x.ShortForm == cbLanguage.Text)?
+            .Id ?? -1;
+
+        if (langId == -1)
+        {
+            // Error
+            MessageBox.Show("It is not possible to find your language.");
+            return;
+        }
+
+        DbContext.Words.Add(new Words { Phrase = tbUserInput.Text, LanguageId = langId });
     }
 }

@@ -28,7 +28,11 @@ public partial class MainWindow : Window
         
 
         #endregion
+    }
 
+    private void LoadWordsToCurrentPage()
+    {
+        
     }
 
     protected override void OnClosed(EventArgs e)
@@ -45,8 +49,8 @@ public partial class MainWindow : Window
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
-        ISentenceGen gen = new LIamaGen();
-        gen.Generate("ЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪ", Languages.Italian);
+        /*ISentenceGen gen = new LIamaGen();
+        gen.Generate("ЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪ", Languages.Italian);*/
         
         Close();
     }
