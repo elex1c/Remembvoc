@@ -2,8 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:Remembvoc"
-        xmlns:models="clr-namespace:Remembvoc.Models"
         Title="MainWindow" Height="600"
         Width="450" MouseLeftButtonDown="MWindow_MouseLeftButtonDown"
         WindowStyle="None" x:Name="MWindow"
@@ -24,12 +22,13 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
-        <ObjectDataProvider x:Key="languageEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type Type="{x:Type models:Languages}"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        
+        <Style x:Key="DefaultButtonStyle" TargetType="Button"
+               BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#bbbfbc"/>
+            <Setter Property="Foreground" Value="#bbbfbc"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -71,24 +70,20 @@
                     <Grid>
                             
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="475"/>
+                            <RowDefinition Height="445"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                             
                         <DataGrid Name="myDG" AutoGenerateColumns="False"
                                   CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
-                                  VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow">
+                                  VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow"
+                                  IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
                                                     Width="300" FontSize="22"/>
-                                <DataGridTemplateColumn Width="110" Header="Language">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox SelectedItem="{Binding Language}" FontSize="16"
-                                                      ItemsSource="{Binding Source={StaticResource languageEnum}}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Language" Binding="{Binding Language}"
+                                                    Width="110" FontSize="22"/>
                                 <DataGridTemplateColumn Width="40" >
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -102,9 +97,29 @@
                             </DataGrid.Columns>
                         </DataGrid>
                             
-                        <Button Grid.Row="1" Content="Add new word"
-                                Width="250" Name="btnAddNewWord"
-                                Click="BtnAddNewWord_OnClick"/>
+                        <Grid Grid.Row="1" Background="#656769"
+                              Name="gridPageButtons">
+                            <Button BorderThickness="0" Width="30"
+                                    HorizontalAlignment="Left" Style="{StaticResource DefaultButtonStyle}"
+                                    Content="◄" Padding="0 -5 0 0"
+                                    FontSize="28" Foreground="Black"
+                                    Name="btnMinusPage" Click="BtnMinusPage_OnClick"/>
+                            <TextBlock Width="30" Foreground="#bbbfbc"
+                                       FontSize="18" FontWeight="Medium"
+                                       TextAlignment="Center" VerticalAlignment="Center"
+                                       Name="tbPageNumber" Text="1"/>
+                            <Button BorderThickness="0" Width="30"
+                                    HorizontalAlignment="Right" Style="{StaticResource DefaultButtonStyle}"
+                                    Content="►" Padding="0 -5 0 0"
+                                    FontSize="28" Foreground="Black"
+                                    Name="btnPlusPage" Click="BtnPlusPage_OnClick"/>
+                        </Grid>
+                        
+                        <Grid Grid.Row="2" Background="#656769">
+                            <Button Content="Add new word" Width="250"
+                                    Name="btnAddNewWord" Click="BtnAddNewWord_OnClick"
+                                    Style="{StaticResource DefaultButtonStyle}"/>
+                        </Grid>
                             
                     </Grid>
                     

@@ -34,4 +34,14 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="AdditionalUI\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="AdditionalUI\AdditionalWindows\AddNewWordWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+
 </Project>

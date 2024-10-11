@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Remembvoc.Models.ApplicationModels;
 using Languages = Remembvoc.Models.Languages;
 
-namespace Remembvoc.AdditionalWindows;
+namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
 public partial class AddNewWordWindow : Window
 {
