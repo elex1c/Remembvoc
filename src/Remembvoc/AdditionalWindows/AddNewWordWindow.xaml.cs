@@ -36,7 +36,6 @@ public partial class AddNewWordWindow : Window
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
-
         int langId = DbContext.Languages
             .FirstOrDefault(x => x.ShortForm == cbLanguage.Text)?
             .Id ?? -1;
@@ -49,5 +48,7 @@ public partial class AddNewWordWindow : Window
         }
 
         DbContext.Words.Add(new Words { Phrase = tbUserInput.Text, LanguageId = langId });
+
+        DbContext.SaveChanges();
     }
 }

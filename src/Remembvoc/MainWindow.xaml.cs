@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Forms;
+using Microsoft.EntityFrameworkCore;
 using Remembvoc.AdditionalWindows;
 using Remembvoc.Models;
-using Remembvoc.SentencesLibraries;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
@@ -16,23 +15,36 @@ public partial class MainWindow : Window
 {
     private ObservableCollection<Word> ItemsSource;
     public DatabaseContext DbContext { get; set; }
-    
+
+    private int CurrentPageNumber { get; set; } = 1;
+    private const int ElementsPerPage = 15;
+
     public MainWindow()
     {
         InitializeComponent();
 
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
 
-        #region Test Settings
-        
-        
+        DbContext = ((App)Application.Current).DatabaseContext;
 
-        #endregion
+        ItemsSource = new ObservableCollection<Word>();
+        LoadWordsToCurrentPage();
     }
 
     private void LoadWordsToCurrentPage()
     {
-        
+        var words = DbContext.Words
+            .Include(w => w.Language)
+            .OrderBy(x => x.Id)
+            .Skip((CurrentPageNumber * ElementsPerPage) - ElementsPerPage)
+            .Take(ElementsPerPage)
+            .ToList();
+
+        List<Word> list = new();
+        foreach (var word in words)
+            list.Add((Word)word);
+
+        ItemsSource = new ObservableCollection<Word>(list);
     }
 
     protected override void OnClosed(EventArgs e)
