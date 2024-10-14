@@ -4,12 +4,12 @@
         xmlns:core="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="600"
         Width="450" MouseLeftButtonDown="MWindow_MouseLeftButtonDown"
-        WindowStyle="None" x:Name="MWindow"
+        WindowStyle="None" x:Name="MWindow" Background="#2d2e30"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
-
+    
     <Window.Resources>
         <ControlTemplate x:Key="titleButton" TargetType="Button">
             <Grid>
@@ -23,13 +23,16 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
         
+        <SolidColorBrush x:Key="MainDarkColour" Color="#2d2e30" />
+        <SolidColorBrush x:Key="LighterColour" Color="#bbbfbc" />
+        
         <Style x:Key="DefaultButtonStyle" TargetType="Button"
                BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="#bbbfbc"/>
-            <Setter Property="Foreground" Value="#bbbfbc"/>
+            <Setter Property="BorderBrush" Value="{StaticResource LighterColour}"/>
+            <Setter Property="Foreground" Value="{StaticResource LighterColour}"/>
         </Style>
-    </Window.Resources>
+</Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -39,18 +42,18 @@
 
         <!-- #region TitleBar -->
         
-        <Grid Background="#2d2e30" VerticalAlignment="Stretch">
+        <Grid Background="#1f2021" VerticalAlignment="Stretch">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
-                        Background="#656769">
-                    <Button x:Name="btnMinimize" Content="_" 
-                            Width="50" Background="Transparent" 
-                            BorderBrush="Transparent" Foreground="#bbbfbc" 
-                            Height="30" Click="btnMinimize_Click"
-                            FontSize="18" Template="{StaticResource titleButton}"/>
-                    <Button x:Name="btnClose" Content="X" 
-                            Width="50" Background="Transparent" 
-                            BorderBrush="Transparent" Foreground="#bbbfbc" 
-                            Height="30" Click="btnClose_Click" Template="{StaticResource titleButton}"/>
+                        Background="#1f2021">
+                <Button x:Name="btnMinimize" Content="_" 
+                        Width="50" Background="Transparent" 
+                        BorderBrush="Transparent" Foreground="{StaticResource LighterColour}" 
+                        Height="30" Click="btnMinimize_Click"
+                        FontSize="18" Template="{StaticResource titleButton}"/>
+                <Button x:Name="btnClose" Content="X" 
+                        Width="50" Background="Transparent" 
+                        BorderBrush="Transparent" Foreground="{StaticResource LighterColour}" 
+                        Height="30" Click="btnClose_Click" Template="{StaticResource titleButton}"/>
             </StackPanel>
         </Grid>
 
@@ -78,7 +81,7 @@
                         <DataGrid Name="myDG" AutoGenerateColumns="False"
                                   CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow"
-                                  IsReadOnly="True">
+                                  IsReadOnly="True" Background="{StaticResource MainDarkColour}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
                                                     Width="300" FontSize="22"/>
@@ -97,25 +100,25 @@
                             </DataGrid.Columns>
                         </DataGrid>
                             
-                        <Grid Grid.Row="1" Background="#656769"
+                        <Grid Grid.Row="1" Background="{StaticResource MainDarkColour}"
                               Name="gridPageButtons">
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Left" Style="{StaticResource DefaultButtonStyle}"
                                     Content="◄" Padding="0 -5 0 0"
-                                    FontSize="28" Foreground="Black"
+                                    FontSize="28" Foreground="{StaticResource LighterColour}"
                                     Name="btnMinusPage" Click="BtnMinusPage_OnClick"/>
-                            <TextBlock Width="30" Foreground="#bbbfbc"
+                            <TextBlock Width="30" Foreground="{StaticResource LighterColour}"
                                        FontSize="18" FontWeight="Medium"
                                        TextAlignment="Center" VerticalAlignment="Center"
                                        Name="tbPageNumber" Text="1"/>
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Right" Style="{StaticResource DefaultButtonStyle}"
                                     Content="►" Padding="0 -5 0 0"
-                                    FontSize="28" Foreground="Black"
+                                    FontSize="28" Foreground="{StaticResource LighterColour}"
                                     Name="btnPlusPage" Click="BtnPlusPage_OnClick"/>
                         </Grid>
                         
-                        <Grid Grid.Row="2" Background="#656769">
+                        <Grid Grid.Row="2" Background="{StaticResource MainDarkColour}">
                             <Button Content="Add new word" Width="250"
                                     Name="btnAddNewWord" Click="BtnAddNewWord_OnClick"
                                     Style="{StaticResource DefaultButtonStyle}"/>

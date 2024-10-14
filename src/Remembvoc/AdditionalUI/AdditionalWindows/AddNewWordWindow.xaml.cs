@@ -36,18 +36,30 @@ public partial class AddNewWordWindow : Window
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
+        string phrase = tbUserInput.Text
+            .Trim()
+            .ToLower();
         int langId = DbContext.Languages
             .FirstOrDefault(x => x.ShortForm == cbLanguage.Text)?
             .Id ?? -1;
 
+        bool isWordInDictionary = DbContext.Words
+            .FirstOrDefault(x => x.Phrase == phrase) != null;
+
+        if (isWordInDictionary)
+        {
+            // Error
+            MessageBox.Show("You already have this word in your dictionary");
+            return;
+        }
         if (langId == -1)
         {
             // Error
             MessageBox.Show("It is not possible to find your language.");
             return;
         }
-
-        DbContext.Words.Add(new Words { Phrase = tbUserInput.Text, LanguageId = langId });
+        
+        DbContext.Words.Add(new Words { Phrase = phrase, LanguageId = langId });
 
         DbContext.SaveChanges();
     }
