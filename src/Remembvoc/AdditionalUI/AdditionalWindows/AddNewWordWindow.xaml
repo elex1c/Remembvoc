@@ -15,7 +15,8 @@
     <Window.Resources>
         <ControlTemplate x:Key="titleButton" TargetType="Button">
             <Grid>
-                <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}"
+                           Stroke="{TemplateBinding BorderBrush}"/>
                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
             <ControlTemplate.Triggers>
@@ -30,8 +31,9 @@
             <Setter Property="BorderBrush" Value="#7f8182"/>
         </Style>
     </Window.Resources>
-    
-    <Border CornerRadius="15">
+
+    <Border CornerRadius="15" BorderThickness="0.5"
+            BorderBrush="#bbbfbc">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -39,18 +41,17 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-        
-            <Grid Background="#2d2e30" VerticalAlignment="Stretch">
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
-                            Background="#656769">
+
+            <Grid Background="#1f2021">
+                <Border CornerRadius="15">
                     <Button x:Name="btnClose" Content="X" 
                             Width="40" Background="Transparent" 
                             BorderBrush="Transparent" Foreground="#bbbfbc" 
-                            Height="20" Template="{StaticResource titleButton}"
-                            Click="BtnClose_OnClick"/>
-                </StackPanel>
+                            Height="20" Click="BtnClose_OnClick" HorizontalAlignment="Right"
+                            Template="{StaticResource titleButton}"/>
+                </Border>
             </Grid>
-        
+
             <TextBox Grid.Row="1" Width="200"
                      Height="40" Foreground="#7f8182"
                      BorderBrush="#7f8182" FontSize="18"

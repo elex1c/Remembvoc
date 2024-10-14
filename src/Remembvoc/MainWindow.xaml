@@ -81,19 +81,21 @@
                         <DataGrid Name="myDG" AutoGenerateColumns="False"
                                   CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow"
-                                  IsReadOnly="True" Background="{StaticResource MainDarkColour}">
+                                  IsReadOnly="True" Background="{StaticResource MainDarkColour}"
+                                  RowHeight="35">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
-                                                    Width="300" FontSize="22"/>
+                                                    Width="300" FontSize="14"/>
                                 <DataGridTextColumn Header="Language" Binding="{Binding Language}"
-                                                    Width="110" FontSize="22"/>
-                                <DataGridTemplateColumn Width="40" >
+                                                    Width="110" FontSize="14"/>
+                                <DataGridTemplateColumn Width="40">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Content="X" Name="btnDelWord"
                                                     Click="BtnDelWord_OnClick" Tag="{Binding Phrase}"
-                                                    Padding="0" Foreground="Brown"
-                                                    Background="Transparent" BorderThickness="0"/>
+                                                    Padding="0 -15 0 0" Foreground="Brown"
+                                                    Background="Transparent" BorderThickness="0"
+                                                    FontSize="14"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
