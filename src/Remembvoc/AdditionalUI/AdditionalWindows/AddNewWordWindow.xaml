@@ -15,13 +15,14 @@
     <Window.Resources>
         <ControlTemplate x:Key="titleButton" TargetType="Button">
             <Grid>
-                <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}"
-                           Stroke="{TemplateBinding BorderBrush}"/>
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border x:Name="backgroundElement" Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="0 15 0 0">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Fill" TargetName="backgroundElement" Value="#d6200f"/>
+                    <Setter Property="Background" TargetName="backgroundElement" Value="#d6200f"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>

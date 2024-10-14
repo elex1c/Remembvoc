@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows;
 using Forms = System.Windows.Forms;
 
@@ -13,6 +14,9 @@ public class NotifyIconBackground : IDisposable
 
     public NotifyIconBackground() => CreateTrayIcon();
 
+    [DllImport("user32.dll")]
+    private static extern bool GetCursorPos(out POINT lpPoint);
+    
     private void CreateTrayIcon()
     {
         _trayMenu = new Forms.ContextMenuStrip();
@@ -26,14 +30,24 @@ public class NotifyIconBackground : IDisposable
             ContextMenuStrip = _trayMenu,
             Visible = true
         };
-
+        
         _trayIcon.MouseClick += (_, args) =>
         {
-            if (args.Button == Forms.MouseButtons.Left)
-            {
-                ShowWindow();
-            }
+            GetCursorPos(out var cursorPosition);
+
+            // Show the context menu near the system tray icon
+            _trayMenu.Show(cursorPosition.X, cursorPosition.Y);
         };
+        
+        /*
+         How to show notification
+         
+         _trayIcon.BalloonTipTitle = "Hello!";
+        _trayIcon.BalloonTipText = "This is a system tray notification.";
+        _trayIcon.BalloonTipIcon = Forms.ToolTipIcon.Info; // Can be Info, Warning, Error
+        _trayIcon.ShowBalloonTip(3000); // Show notification for 3 seconds
+        
+        */
     }
 
     private void ShowWindow()
@@ -70,5 +84,11 @@ public class NotifyIconBackground : IDisposable
     {
         _trayIcon.Dispose();
         _trayMenu.Dispose();
+    }
+    
+    public struct POINT
+    {
+        public int X;
+        public int Y;
     }
 }
