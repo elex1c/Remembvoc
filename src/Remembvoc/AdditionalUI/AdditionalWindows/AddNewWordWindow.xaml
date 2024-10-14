@@ -17,7 +17,7 @@
             <Grid>
                 <Rectangle x:Name="backgroundElement" Fill="{TemplateBinding Background}"
                            Stroke="{TemplateBinding BorderBrush}"/>
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -42,8 +42,8 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <Grid Background="#1f2021">
-                <Border CornerRadius="15">
+            <Grid>
+                <Border CornerRadius="15 15 0 0" Background="#1f2021">
                     <Button x:Name="btnClose" Content="X" 
                             Width="40" Background="Transparent" 
                             BorderBrush="Transparent" Foreground="#bbbfbc" 
