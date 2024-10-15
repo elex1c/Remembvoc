@@ -85,9 +85,11 @@
                                   RowHeight="35">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
-                                                    Width="300" FontSize="14"/>
+                                                    Width="*" FontSize="14"/>
                                 <DataGridTextColumn Header="Language" Binding="{Binding Language}"
-                                                    Width="110" FontSize="14"/>
+                                                    Width="*" FontSize="14"/>
+                                <DataGridTextColumn Header="Translation" Binding="{Binding Translation}"
+                                                    Width="*" FontSize="14"/>
                                 <DataGridTemplateColumn Width="40">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
