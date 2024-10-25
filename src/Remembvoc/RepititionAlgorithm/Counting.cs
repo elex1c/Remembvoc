@@ -13,17 +13,17 @@ namespace Remembvoc.RepititionAlgorithm
             priority.LastCheck = now;
         }
 
-        public static void CountPoints(Priorities priority, bool isSuccess, int currentPeriodTime)
+        public static void CountPoints(Priorities priority, bool isSuccess, int minutesPerPerion)
         {
             if (isSuccess)
             {
                 priority.Period += 1;
-                priority.MinutesToRepeat = currentPeriodTime;
+                priority.MinutesToRepeat = minutesPerPerion;
             }
             else 
             {
                 if (priority.Period > 1) priority.Period -= 1;
-                priority.MinutesToRepeat = (int)Math.Round((double)currentPeriodTime * 0.65);
+                priority.MinutesToRepeat = (int)Math.Round((double)minutesPerPerion * 0.65);
             }
         }
     }
