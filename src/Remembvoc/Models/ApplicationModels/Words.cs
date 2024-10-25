@@ -11,4 +11,5 @@ public class Words
     public string Translation { get; set; }
     public int LanguageId { get; set; }
     public Languages Language { get; set; }
+    public virtual Priorities Priorities { get; set; }
 }

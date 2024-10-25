@@ -7,6 +7,7 @@ public class DatabaseContext : DbContext
 {
     public DbSet<Words> Words { get; set; }
     public DbSet<Languages> Languages { get; set; }
+    public DbSet<Priorities> MyProperty { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -25,5 +26,10 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Languages>()
             .HasIndex(e => e.ShortForm)
             .IsUnique();
+
+        modelBuilder.Entity<Priorities>()
+            .HasOne(b => b.Words)
+            .WithOne(a => a.Priorities)
+            .HasForeignKey<Priorities>(b => b.Id);
     }
 }
