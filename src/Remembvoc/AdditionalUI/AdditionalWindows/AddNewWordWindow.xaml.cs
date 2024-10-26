@@ -39,17 +39,27 @@ public partial class AddNewWordWindow : Window
         string phrase = tbUserInput.Text
             .Trim()
             .ToLower();
+        string translation = tbTranslation.Text
+            .Trim()
+            .ToLower();
+        
         int langId = DbContext.Languages
             .FirstOrDefault(x => x.ShortForm == cbLanguage.Text)?
             .Id ?? -1;
 
         bool isWordInDictionary = DbContext.Words
             .FirstOrDefault(x => x.Phrase == phrase) != null;
-
+        
         if (isWordInDictionary)
         {
             // Error
             MessageBox.Show("You already have this word in your dictionary");
+            return;
+        }
+        if (string.IsNullOrEmpty(translation) || string.IsNullOrEmpty(phrase))
+        {
+            // Error
+            MessageBox.Show("You can't leave text boxes empty");
             return;
         }
         if (langId == -1)
@@ -58,9 +68,15 @@ public partial class AddNewWordWindow : Window
             MessageBox.Show("It is not possible to find your language.");
             return;
         }
-        
-        DbContext.Words.Add(new Words { Phrase = phrase, LanguageId = langId });
 
+        Words word = new Words { Phrase = phrase, LanguageId = langId, Translation = translation };
+        DbContext.Words.Add(word);
+        DbContext.SaveChanges();
+
+        Priorities priority = new Priorities();
+        RepititionAlgorithm.Counting.DefaultSet(priority, 1440);
+        priority.Id = word.Id;
+        DbContext.Priorities.Add(priority);
         DbContext.SaveChanges();
     }
 }

@@ -13,6 +13,14 @@ namespace Remembvoc.RepititionAlgorithm
             priority.LastCheck = now;
         }
 
+        public static void DefaultSet(Priorities priority, int periodTime)
+        {
+            priority.Period = 1;
+            priority.MinutesToRepeat = periodTime;
+            priority.LastCheck = DateTime.Now;
+            priority.Points = 1;
+        }
+        
         public static void CountPoints(Priorities priority, bool isSuccess, int minutesPerPerion)
         {
             if (isSuccess)

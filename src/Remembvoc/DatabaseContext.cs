@@ -7,7 +7,7 @@ public class DatabaseContext : DbContext
 {
     public DbSet<Words> Words { get; set; }
     public DbSet<Languages> Languages { get; set; }
-    public DbSet<Priorities> MyProperty { get; set; }
+    public DbSet<Priorities> Priorities { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

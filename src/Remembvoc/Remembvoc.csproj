@@ -29,9 +29,6 @@
       <Content Include="Icons\Error.ico">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <None Update="database.db">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <ItemGroup>

@@ -4,8 +4,9 @@
         xmlns:core="clr-namespace:System;assembly=mscorlib"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" Background="#2d2e30"
-        Title="OneBoxOneButton" Height="200" Width="300" AllowsTransparency="True"
+        Title="OneBoxOneButton" Height="250" Width="300" AllowsTransparency="True"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         MouseLeftButtonDown="OneBoxOneButton_OnMouseLeftButtonDown">
     <WindowChrome.WindowChrome>
@@ -40,6 +41,7 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
@@ -57,15 +59,23 @@
                      Height="40" Foreground="#7f8182"
                      BorderBrush="#7f8182" FontSize="18"
                      Padding="0 10 0 0" Name="tbUserInput"
-                     Style="{StaticResource DefaultControlStyle}">
+                     Style="{StaticResource DefaultControlStyle}" materialDesign:HintAssist.Hint="Word">
             </TextBox>
         
-            <ComboBox Grid.Row="2" FontSize="16"
+            <TextBox Grid.Row="2" Width="200"
+                     Height="40" Foreground="#7f8182"
+                     BorderBrush="#7f8182" FontSize="18"
+                     Padding="0 10 0 0" Name="tbTranslation"
+                     Style="{StaticResource DefaultControlStyle}" materialDesign:HintAssist.Hint="Translation">
+            </TextBox>
+            
+            <ComboBox Grid.Row="3" FontSize="16"
                       Width="130" BorderBrush="#7f8182"
                       ItemsSource="{Binding Languages}"
-                      Foreground="#7f8182" Name="cbLanguage"/>
+                      Foreground="#7f8182" Name="cbLanguage"
+                      materialDesign:HintAssist.Hint="Language"/>
             
-            <Button Grid.Row="3" Name="btnMainButton"
+            <Button Grid.Row="4" Name="btnMainButton"
                     Width="150" Background="Transparent"
                     Foreground="#7f8182" Content="{Binding ButtonText}"
                     BorderBrush="#7f8182" Click="Button_OnClick"/>
