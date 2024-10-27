@@ -12,12 +12,7 @@ public class NotifyIconBackground : IDisposable
     private Forms.NotifyIcon _trayIcon;
     private Forms.ContextMenuStrip  _trayMenu;
 
-    public NotifyIconBackground(Forms.NotifyIcon trayIcon, Forms.ContextMenuStrip trayMenu)
-    {
-        _trayIcon = trayIcon;
-        _trayMenu = trayMenu;
-        CreateTrayIcon();
-    }
+    public NotifyIconBackground() => CreateTrayIcon();
 
     [DllImport("user32.dll")]
     private static extern bool GetCursorPos(out POINT lpPoint);
@@ -35,6 +30,11 @@ public class NotifyIconBackground : IDisposable
             ContextMenuStrip = _trayMenu,
             Visible = true
         };
+
+        _trayIcon.BalloonTipTitle = "You have words to revise!";
+        _trayIcon.BalloonTipText = "See them in 'Translate' section";
+
+        _trayIcon.BalloonTipClicked += OnOpen; 
         
         _trayIcon.MouseClick += (_, args) =>
         {
@@ -56,6 +56,15 @@ public class NotifyIconBackground : IDisposable
         _window.Activate();
     }
 
+    /// <summary>
+    /// Shows ballon tip notification in set interval.
+    /// </summary>
+    /// <param name="interval">In milliseconds</param>
+    public void ShowNotification(int interval)
+    {
+        _trayIcon.ShowBalloonTip(interval);
+    }
+    
     private void OnOpen(object? sender, EventArgs e)
     {
         _window ??= new MainWindow

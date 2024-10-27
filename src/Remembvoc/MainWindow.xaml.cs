@@ -37,13 +37,13 @@ public partial class MainWindow : Window
         
         #endregion
 
-        BasicStartMethods();
+        Loaded += (_, _) => BasicStartMethods();
     }
 
     private void BasicStartMethods()
     {
         // Updates time since last check to word revising
-        DbMethods.UpdateTimeInPriorities(DbContext);
+        DbMethods.UpdateTimeInPriorities();
         // Loads words from vocabulary
         LoadWordsToCurrentPage();
     }

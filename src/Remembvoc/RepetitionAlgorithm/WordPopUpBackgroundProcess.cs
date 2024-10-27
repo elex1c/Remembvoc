@@ -2,10 +2,10 @@
 
 namespace Remembvoc.RepetitionAlgorithm
 {
-    public class WordPopUpBackgroundProcess(DatabaseContext _context)
+    public class WordPopUpBackgroundProcess(App app)
     {
         private readonly CancellationTokenSource _cancellationToken = new();
-        
+
         public void Start()
         {
             var token = _cancellationToken.Token;
@@ -14,9 +14,9 @@ namespace Remembvoc.RepetitionAlgorithm
             {
                 while (!token.IsCancellationRequested) 
                 {
-                    Helper.DbMethods.UpdateTimeInPriorities(_context);
-
-                    ProcessWordsForRevising(Helper.DbMethods.GetWordsForRevising(10, 1, _context));
+                    Helper.DbMethods.UpdateTimeInPriorities();
+                    
+                    ProcessWordsForRevising(Helper.DbMethods.GetWordsForRevising(10, 1));
                     
                     await Task.Delay(TimeSpan.FromMinutes(5), token);
                 }
@@ -28,6 +28,14 @@ namespace Remembvoc.RepetitionAlgorithm
         {
             if (wordsList.Count == 0) return;
             
+            app.BackgroundIcon.ShowNotification(3000);
+
+            var currentMainWindow = app.CurrentMainWindow;
+            
+            if (currentMainWindow is not null)
+            {
+                // TODO: Process all words for revising in data grid
+            }
         }
         
         public void Stop() 
