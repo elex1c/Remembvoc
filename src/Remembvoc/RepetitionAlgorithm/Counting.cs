@@ -1,8 +1,8 @@
 ﻿using Remembvoc.Models.ApplicationModels;
 
-namespace Remembvoc.RepititionAlgorithm
+namespace Remembvoc.RepetitionAlgorithm
 {
-    public class Counting
+    public static class Counting
     {
         public static void CountCheckTime(Priorities priority)
         {
@@ -31,7 +31,7 @@ namespace Remembvoc.RepititionAlgorithm
             else 
             {
                 if (priority.Period > 1) priority.Period -= 1;
-                priority.MinutesToRepeat = (int)Math.Round((double)minutesPerPerion * 0.65);
+                priority.MinutesToRepeat = (int)Math.Round(minutesPerPerion * 0.65);
             }
         }
     }

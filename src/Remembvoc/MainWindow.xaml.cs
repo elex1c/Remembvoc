@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Transactions;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using Remembvoc.Helper;
 using Remembvoc.Models;
+using Remembvoc.Models.ApplicationModels;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
 
@@ -12,7 +15,7 @@ namespace Remembvoc;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public DatabaseContext DbContext { get; set; }
+    private DatabaseContext DbContext { get; set; }
 
     private int CurrentPageNumber { get; set; } = 1;
     private const int ElementsPerPage = 5;
@@ -28,6 +31,20 @@ public partial class MainWindow : Window
 
         DbContext = ((App)Application.Current).DatabaseContext;
         
+        #region TempData
+
+        translateDataGrid.ItemsSource = new ObservableCollection<Translation>([new Translation { Word = "Hello"}, new Translation { Word = "Goodbye"} ]);
+        
+        #endregion
+
+        BasicStartMethods();
+    }
+
+    private void BasicStartMethods()
+    {
+        // Updates time since last check to word revising
+        DbMethods.UpdateTimeInPriorities(DbContext);
+        // Loads words from vocabulary
         LoadWordsToCurrentPage();
     }
 
@@ -76,8 +93,8 @@ public partial class MainWindow : Window
         foreach (var word in words)
             list.Add((Word)word);
 
-        myDG.ItemsSource = new ObservableCollection<Word>(list);
-        myDG.Items.Refresh();
+        vocabularyDataGrid.ItemsSource = new ObservableCollection<Word>(list);
+        vocabularyDataGrid.Items.Refresh();
 
         LoadPageButtons();
     }
@@ -96,9 +113,6 @@ public partial class MainWindow : Window
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
-        /*ISentenceGen gen = new LIamaGen();
-        gen.Generate("ЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪЪ", Languages.Italian);*/
-        
         Close();
     }
 

@@ -74,7 +74,7 @@ public partial class AddNewWordWindow : Window
         DbContext.SaveChanges();
 
         Priorities priority = new Priorities();
-        RepititionAlgorithm.Counting.DefaultSet(priority, 1440);
+        RepetitionAlgorithm.Counting.DefaultSet(priority, 1440);
         priority.Id = word.Id;
         DbContext.Priorities.Add(priority);
         DbContext.SaveChanges();
