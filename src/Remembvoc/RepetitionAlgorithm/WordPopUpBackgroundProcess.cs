@@ -1,4 +1,5 @@
-﻿using Remembvoc.Models.ApplicationModels;
+﻿using System.Collections.ObjectModel;
+using Remembvoc.Models.ApplicationModels;
 
 namespace Remembvoc.RepetitionAlgorithm
 {
@@ -28,14 +29,18 @@ namespace Remembvoc.RepetitionAlgorithm
         {
             if (wordsList.Count == 0) return;
             
-            app.BackgroundIcon.ShowNotification(3000);
-
-            var currentMainWindow = app.CurrentMainWindow;
-            
-            if (currentMainWindow is not null)
+            app.Dispatcher.Invoke(() =>
             {
-                // TODO: Process all words for revising in data grid
-            }
+                app.BackgroundIcon.ShowNotification(3000);
+
+                var currentMainWindow = app.CurrentMainWindow;
+        
+                if (currentMainWindow is not null)
+                {
+                    currentMainWindow.translateDataGrid.ItemsSource = new ObservableCollection<Words>(wordsList);
+                    currentMainWindow.translateDataGrid.Items.Refresh();
+                }
+            });
         }
         
         public void Stop() 

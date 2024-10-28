@@ -116,8 +116,8 @@
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Left" Style="{StaticResource DefaultButtonStyle}"
                                     Content="◄" Padding="0 -5 0 0"
-                                    FontSize="28" Foreground="{StaticResource LighterColour}"
-                                    Name="btnMinusPage" Click="BtnMinusPage_OnClick"/>
+                                    FontSize="28" Name="btnMinusPage"
+                                    Click="BtnMinusPage_OnClick"/>
                             <TextBlock Width="30" Foreground="{StaticResource LighterColour}"
                                        FontSize="18" FontWeight="Medium"
                                        TextAlignment="Center" VerticalAlignment="Center"
@@ -125,8 +125,8 @@
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Right" Style="{StaticResource DefaultButtonStyle}"
                                     Content="►" Padding="0 -5 0 0"
-                                    FontSize="28" Foreground="{StaticResource LighterColour}"
-                                    Name="btnPlusPage" Click="BtnPlusPage_OnClick"/>
+                                    FontSize="28" Name="btnPlusPage"
+                                    Click="BtnPlusPage_OnClick"/>
                         </Grid>
                         
                         <Grid Grid.Row="2" Background="{StaticResource MainDarkColour}">
@@ -157,35 +157,19 @@
                                   IsReadOnly="True" Background="{StaticResource MainDarkColour}"
                                   RowHeight="35">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Word" Binding="{Binding Word}"
+                                <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
                                                     Width="*" FontSize="14"/>
                                 <DataGridTemplateColumn Width="40">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid Margin="-15 -15 -15 -15 ">
-                                                <Button Name="btnTranslate" Tag="{Binding Word}"
+                                                <Button Name="btnTranslate" Tag="{Binding Phrase}"
                                                         Background="Transparent" BorderThickness="0"
                                                         FontSize="14" Style="{StaticResource MaterialDesignFlatButton}"
                                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                         Padding="0" Foreground="LimeGreen"
-                                                        ToolTip="Translate">
+                                                        ToolTip="Translate" Click="BtnTranslate_OnClick">
                                                     <matDes:PackIcon Kind="Tick" />
-                                                </Button>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="40">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="-15 -15 -15 -15 ">
-                                                <Button Name="btnDeleteFromTranslation" Tag="{Binding Word}"
-                                                        Background="Transparent" BorderThickness="0"
-                                                        FontSize="14" Style="{StaticResource MaterialDesignFlatButton}"
-                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                        Padding="0" Foreground="Brown"
-                                                        ToolTip="Remove">
-                                                    <matDes:PackIcon Kind="CrossCircle" />
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>

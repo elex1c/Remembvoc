@@ -141,6 +141,12 @@ public partial class MainWindow : Window
         LoadWordsToCurrentPage();
     }
 
+    private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
+    {
+        var button = sender as System.Windows.Controls.Button;
+        
+    }
+
     private void BtnMinusPage_OnClick(object sender, RoutedEventArgs e)
     {
         CurrentPageNumber -= 1;
