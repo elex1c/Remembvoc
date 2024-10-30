@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Remembvoc.AdditionalUI.AdditionalWindows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Background="#2d2e30"
         Title="OneBoxOneButton" Height="250" Width="400" AllowsTransparency="True"
@@ -32,6 +32,8 @@
                BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="BorderBrush" Value="#7f8182"/>
         </Style>
+        
+        <SolidColorBrush x:Key="DefaultTextBrush" Color="#bbbfbc"/>
     </Window.Resources>
     
     <Border CornerRadius="15" BorderThickness="0.5"
@@ -39,21 +41,38 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="65"/>
             </Grid.RowDefinitions>
             
             <Grid>
                 <Border CornerRadius="15 15 0 0" Background="#1f2021">
                     <Button x:Name="btnClose" Content="X" 
                             Width="40" Background="Transparent" 
-                            BorderBrush="Transparent" Foreground="#bbbfbc" 
+                            BorderBrush="Transparent" Foreground="{StaticResource DefaultTextBrush}" 
                             Height="20" Click="BtnClose_OnClick" HorizontalAlignment="Right"
                             Template="{StaticResource titleButton}"/>
                 </Border>
             </Grid>
             
+            <TextBlock Grid.Row="1" Margin="30 20 30 0"
+                       Foreground="{StaticResource DefaultTextBrush}" FontWeight="Bold"
+                       FontSize="16" TextWrapping="WrapWithOverflow"
+                       Name="tbGeneratedSentence" VerticalAlignment="Center"
+                       Text="but there are multiple ways of populating the content, showing the dialog, closing the dialog, and processing responses">
+            </TextBlock>
+            
+            <TextBox Grid.Row="2" Name="tbUserInput"
+                     Width="200" FontSize="18" 
+                     Foreground="{StaticResource DefaultTextBrush}"
+                     Style="{StaticResource DefaultControlStyle}"
+                     materialDesign:HintAssist.Hint="Translation" VerticalAlignment="Center"/>
+            
+            <Button Grid.Row="3" Name="btnConfirmButton"
+                    Width="150" Background="Transparent"
+                    Foreground="#7f8182" Content="Confirm"
+                    BorderBrush="#7f8182" Click="BtnConfirmButton_OnClick"/>
         </Grid>
     </Border>
 </Window>

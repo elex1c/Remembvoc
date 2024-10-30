@@ -9,11 +9,11 @@ namespace Remembvoc.SentencesLibraries;
 
 public class LIamaGen : ISentenceGen
 {
-    private const string API_KEY = "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";
+    private const string API_KEY = "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";
     private const string ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
     private const string MODEL = "llama3-8b-8192";
 
-    public async Task<string?> Generate(string word, Languages language)
+    public async Task<string?> GenerateSentence(string word, Languages language)
     {
         using (var client = new HttpClient())
         {
@@ -22,7 +22,7 @@ public class LIamaGen : ISentenceGen
 
             Request request = new()
             {
-                messages = [new Request.Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". I want you to just send a sentence. If you have some problems with generating, please, just sent 'ERROR'", role = "user" }],
+                messages = [new Request.Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". In response put generated sentence between pipe characters. If you have some problems with generating, please, just sent 'ERROR'.", role = "user" }],
                 model = MODEL,
                 max_tokens = 1024,
                 temperature = 1,
@@ -65,6 +65,9 @@ public class LIamaGen : ISentenceGen
             catch (Exception) { continue; }
         }
 
+        sentence = sentence.Split('|')[1]
+            .Trim();
+        
         return sentence == string.Empty ? null : sentence;
     }
 }

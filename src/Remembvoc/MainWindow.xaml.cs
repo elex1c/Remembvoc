@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Remembvoc.Helper;
 using Remembvoc.Models;
 using Remembvoc.Models.ApplicationModels;
+using Remembvoc.SentencesLibraries;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
+using Languages = Remembvoc.Models.Languages;
 
 namespace Remembvoc;
 
@@ -30,6 +32,9 @@ public partial class MainWindow : Window
         ((App)Application.Current).BackgroundIcon.SetWindow(this);
 
         DbContext = ((App)Application.Current).DatabaseContext;
+        
+        ISentenceGen gen = new LIamaGen();
+        gen.GenerateSentence("Car", Languages.English);
         
         #region TempData
 
@@ -144,7 +149,6 @@ public partial class MainWindow : Window
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
     {
         var button = sender as System.Windows.Controls.Button;
-        
     }
 
     private void BtnMinusPage_OnClick(object sender, RoutedEventArgs e)

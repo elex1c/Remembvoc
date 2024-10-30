@@ -10,6 +10,11 @@ public partial class TranslateWord : Window
         InitializeComponent();
     }
 
+    private void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        
+    }
+
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
         Close();
