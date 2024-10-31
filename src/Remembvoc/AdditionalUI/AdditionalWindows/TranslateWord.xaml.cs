@@ -5,6 +5,8 @@ namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
 public partial class TranslateWord : Window
 {
+    public string Word { get; set; }
+
     public TranslateWord()
     {
         InitializeComponent();
@@ -12,7 +14,7 @@ public partial class TranslateWord : Window
 
     private void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
     {
-        
+        // TODO: Complete this window
     }
 
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)

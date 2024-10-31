@@ -29,4 +29,11 @@ public static class DbMethods
             .Take(elementsPerPage)
             .ToList();
     }
+
+    public static Words? GetWordElement(string word)
+    {
+        var context = new DatabaseContext();
+
+        return context.Words.FirstOrDefault(x => x.Phrase == word.ToLower());
+    }
 }
