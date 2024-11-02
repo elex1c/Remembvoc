@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Remembvoc.RepetitionAlgorithm;
+using Remembvoc.SentencesLibraries;
 
 namespace Remembvoc;
 
@@ -10,22 +11,22 @@ public partial class App : Application
 {
     public readonly NotifyIconBackground BackgroundIcon = new ();
     public readonly DatabaseContext DatabaseContext = new ();
-    
-    private readonly WordPopUpBackgroundProcess backgroundProcess;
+    public readonly WordPopUpBackgroundProcess BackgroundProcess;
+    public ISentenceGen SentenceGenerator = new LIamaGen();
 
     public MainWindow? CurrentMainWindow => (MainWindow?)Current.MainWindow; 
     
     public App()
     {
-        backgroundProcess = new (this);
-        backgroundProcess.Start();
+        BackgroundProcess = new (this);
+        BackgroundProcess.Start();
     }
     
     protected override void OnExit(ExitEventArgs e)
     {
         BackgroundIcon.Dispose();
         DatabaseContext.Dispose();
-        backgroundProcess.Stop();
+        BackgroundProcess.Stop();
         
         base.OnExit(e);
     }

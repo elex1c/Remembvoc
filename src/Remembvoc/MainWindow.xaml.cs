@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using System.Transactions;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using Remembvoc.AdditionalUI.AdditionalWindows;
 using Remembvoc.Helper;
 using Remembvoc.Models;
 using Remembvoc.Models.ApplicationModels;
 using Remembvoc.SentencesLibraries;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
-using Languages = Remembvoc.Models.Languages;
 
 namespace Remembvoc;
 
@@ -18,7 +17,8 @@ namespace Remembvoc;
 public partial class MainWindow : Window
 {
     private DatabaseContext DbContext { get; set; }
-
+    private App _app => (App)Application.Current;
+    
     private int CurrentPageNumber { get; set; } = 1;
     private const int ElementsPerPage = 5;
 
@@ -29,19 +29,10 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        ((App)Application.Current).BackgroundIcon.SetWindow(this);
-
+        _app.BackgroundIcon.SetWindow(this);
+        
         DbContext = ((App)Application.Current).DatabaseContext;
         
-        ISentenceGen gen = new LIamaGen();
-        gen.GenerateSentence("Car", Languages.English);
-        
-        #region TempData
-
-        translateDataGrid.ItemsSource = new ObservableCollection<Translation>([new Translation { Word = "Hello"}, new Translation { Word = "Goodbye"} ]);
-        
-        #endregion
-
         Loaded += (_, _) => BasicStartMethods();
     }
 
@@ -51,6 +42,8 @@ public partial class MainWindow : Window
         DbMethods.UpdateTimeInPriorities();
         // Loads words from vocabulary
         LoadWordsToCurrentPage();
+        // Loads words to translate
+        LoadWordsToTranslate();
     }
 
     private void LoadPageButtons()
@@ -90,7 +83,7 @@ public partial class MainWindow : Window
         var words = DbContext.Words
             .Include(w => w.Language)
             .OrderBy(x => x.Id)
-            .Skip((CurrentPageNumber * ElementsPerPage) - ElementsPerPage)
+            .Skip(CurrentPageNumber * ElementsPerPage - ElementsPerPage)
             .Take(ElementsPerPage)
             .ToList();
 
@@ -104,9 +97,18 @@ public partial class MainWindow : Window
         LoadPageButtons();
     }
 
+    private void LoadWordsToTranslate()
+    {
+        _app.BackgroundProcess
+            .ProcessWordsForRevising(DbMethods.GetWordsForRevising(10, 1), false);
+        
+        translateDataGrid.ItemsSource = _app.BackgroundProcess.WordsToTranslate;
+        translateDataGrid.Items.Refresh();
+    }
+    
     protected override void OnClosed(EventArgs e)
     {
-        ((App)Application.Current).BackgroundIcon.SetWindow(null);
+        _app.BackgroundIcon.SetWindow(null);
 
         base.OnClosed(e);
     }
@@ -136,6 +138,7 @@ public partial class MainWindow : Window
         
         DbContext.SaveChanges();
         LoadWordsToCurrentPage();
+        LoadWordsToTranslate();
     }
 
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
@@ -150,7 +153,8 @@ public partial class MainWindow : Window
     {
         var button = sender as System.Windows.Controls.Button;
 
-        
+        var window = new TranslateWordWindow(button?.Tag.ToString() ?? "");
+        window.ShowDialog();
     }
 
     private void BtnMinusPage_OnClick(object sender, RoutedEventArgs e)

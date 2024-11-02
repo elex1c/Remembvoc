@@ -34,6 +34,7 @@ public static class DbMethods
     {
         var context = new DatabaseContext();
 
-        return context.Words.FirstOrDefault(x => x.Phrase == word.ToLower());
+        return context.Words.Include(w => w.Language)
+            .FirstOrDefault(x => x.Phrase == word.ToLower());
     }
 }

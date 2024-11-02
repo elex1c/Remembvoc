@@ -2,24 +2,23 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Remembvoc.Models;
 using Remembvoc.Models.FGPT;
 
 namespace Remembvoc.SentencesLibraries;
 
 public class LIamaGen : ISentenceGen
 {
-    private const string API_KEY = "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";
+    private const string API_KEY = "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";
     private const string ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
     private const string MODEL = "llama3-8b-8192";
 
-    public async Task<string?> GenerateSentence(string word, Languages language)
+    public async Task<string?> GenerateSentence(string word, string language)
     {
         using (var client = new HttpClient())
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {API_KEY}");
-
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", API_KEY);
+            
             Request request = new()
             {
                 messages = [new Request.Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". In response put generated sentence between pipe characters. If you have some problems with generating, please, just sent 'ERROR'.", role = "user" }],

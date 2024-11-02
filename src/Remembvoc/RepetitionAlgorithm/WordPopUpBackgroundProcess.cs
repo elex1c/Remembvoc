@@ -7,6 +7,8 @@ namespace Remembvoc.RepetitionAlgorithm
     {
         private readonly CancellationTokenSource _cancellationToken = new();
 
+        public ObservableCollection<Words> WordsToTranslate { get; set; } = new();
+        
         public void Start()
         {
             var token = _cancellationToken.Token;
@@ -17,27 +19,29 @@ namespace Remembvoc.RepetitionAlgorithm
                 {
                     Helper.DbMethods.UpdateTimeInPriorities();
                     
-                    ProcessWordsForRevising(Helper.DbMethods.GetWordsForRevising(10, 1));
+                    ProcessWordsForRevising(Helper.DbMethods.GetWordsForRevising(10, 1), true);
                     
                     await Task.Delay(TimeSpan.FromMinutes(5), token);
                 }
             }, token);
 
         }
-
-        private void ProcessWordsForRevising(List<Words> wordsList)
+        
+        public void ProcessWordsForRevising(List<Words> wordsList, bool notification)
         {
-            if (wordsList.Count == 0) return;
+            WordsToTranslate = new ObservableCollection<Words>(wordsList);
+            
+            if (WordsToTranslate.Count == 0) return;
             
             app.Dispatcher.Invoke(() =>
             {
-                app.BackgroundIcon.ShowNotification(3000);
+                if (notification) app.BackgroundIcon.ShowNotification(3000);
 
                 var currentMainWindow = app.CurrentMainWindow;
-        
+                
                 if (currentMainWindow is not null)
                 {
-                    currentMainWindow.translateDataGrid.ItemsSource = new ObservableCollection<Words>(wordsList);
+                    currentMainWindow.translateDataGrid.ItemsSource = WordsToTranslate;
                     currentMainWindow.translateDataGrid.Items.Refresh();
                 }
             });
