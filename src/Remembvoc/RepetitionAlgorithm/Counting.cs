@@ -21,17 +21,17 @@ namespace Remembvoc.RepetitionAlgorithm
             priority.Points = 1;
         }
         
-        public static void CountPoints(Priorities priority, bool isSuccess, int minutesPerPerion)
+        public static void CountPoints(Priorities priority, bool isSuccess)
         {
             if (isSuccess)
             {
                 priority.Period += 1;
-                priority.MinutesToRepeat = minutesPerPerion;
+                priority.MinutesToRepeat = Periods.GetPeriod(priority.Period - 1);
             }
             else 
             {
                 if (priority.Period > 1) priority.Period -= 1;
-                priority.MinutesToRepeat = (int)Math.Round(minutesPerPerion * 0.65);
+                priority.MinutesToRepeat = (int)Math.Round(Periods.GetPeriod(priority.Period - 1) * 0.65);
             }
         }
     }

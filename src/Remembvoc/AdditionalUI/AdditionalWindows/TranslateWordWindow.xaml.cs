@@ -3,7 +3,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using Remembvoc.Helper;
 using Remembvoc.Models.ApplicationModels;
-using Remembvoc.SentencesLibraries;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
@@ -37,6 +36,7 @@ public partial class TranslateWordWindow : Window
         
         if (string.IsNullOrEmpty(sentence))
         {
+            // ERROR
             MessageBox.Show("Error while generating a text. Check you Wi-Fi connection and your API Key.");
             
             Close();
@@ -68,7 +68,34 @@ public partial class TranslateWordWindow : Window
     
     private void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
     {
-        // TODO: Complete this window
+        string userInput = tbUserInput.Text.ToLower();
+        if (string.IsNullOrEmpty(userInput))
+        {
+            // ERROR
+            MessageBox.Show("You can't left the input empty");
+            return;
+        }
+        
+        if (_word!.Translation == userInput)
+        {
+            RepetitionAlgorithm.Counting.CountPoints(_word.Priorities,
+                true);
+            
+            // Success message
+            MessageBox.Show("It's correct!");
+        }
+        else
+        {
+            RepetitionAlgorithm.Counting.CountPoints(_word.Priorities,
+                false);
+            
+            // Fail message
+            MessageBox.Show("It isn't correct!");
+        }
+        
+        var context = new DatabaseContext();
+        context.Priorities.Update(_word.Priorities);
+        context.SaveChanges();
     }
 
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
