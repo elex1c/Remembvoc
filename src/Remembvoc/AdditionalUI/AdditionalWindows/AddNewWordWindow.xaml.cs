@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using Remembvoc.AdditionalUI.DialogHosts;
 using Remembvoc.Models.ApplicationModels;
 using Languages = Remembvoc.Models.Languages;
 
@@ -12,6 +13,7 @@ public partial class AddNewWordWindow : Window
     public string ButtonText { get; set; }
     private DatabaseContext DbContext { get; }
     public string UserInput { get; set; }
+    private const string DIALOG_HOST_IDENTIFIER = "AddNewWordDialogHost";
     
     public AddNewWordWindow(string btnText, DatabaseContext context)
     {
@@ -49,23 +51,20 @@ public partial class AddNewWordWindow : Window
 
         bool isWordInDictionary = DbContext.Words
             .FirstOrDefault(x => x.Phrase == phrase) != null;
-        
+
         if (isWordInDictionary)
         {
-            // Error
-            MessageBox.Show("You already have this word in your dictionary");
+            ShowError("You already have this word in your dictionary");
             return;
         }
         if (string.IsNullOrEmpty(translation) || string.IsNullOrEmpty(phrase))
         {
-            // Error
-            MessageBox.Show("You can't leave text boxes empty");
+            ShowError("You can't leave text boxes empty");
             return;
         }
         if (langId == -1)
         {
-            // Error
-            MessageBox.Show("It is not possible to find your language.");
+            ShowError("It is not possible to find your language.");
             return;
         }
 
@@ -78,5 +77,12 @@ public partial class AddNewWordWindow : Window
         priority.Id = word.Id;
         DbContext.Priorities.Add(priority);
         DbContext.SaveChanges();
+    }
+
+    private async void ShowError(string errorText)
+    {
+        var errorDialog = new ErrorDialogUserControl() { ErrorText = errorText, DialogHostIdentifier = DIALOG_HOST_IDENTIFIER };
+        
+        await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
     }
 }
