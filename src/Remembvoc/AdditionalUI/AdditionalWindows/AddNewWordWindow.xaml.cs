@@ -24,16 +24,6 @@ public partial class AddNewWordWindow : Window
 
         DataContext = this;
     }
-    
-    private void BtnClose_OnClick(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
-
-    private void OneBoxOneButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        DragMove();
-    }
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
@@ -76,6 +66,8 @@ public partial class AddNewWordWindow : Window
         priority.Id = word.Id;
         DbContext.Priorities.Add(priority);
         DbContext.SaveChanges();
+        
+        Close();
     }
 
     private async void ShowError(string errorText)
@@ -83,5 +75,15 @@ public partial class AddNewWordWindow : Window
         var errorDialog = new ErrorDialogUserControl { ErrorText = errorText, DialogHostIdentifier = DIALOG_HOST_IDENTIFIER };
         
         await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
+    }
+
+    private void BtnClose_OnClick(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void OneBoxOneButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        DragMove();
     }
 }

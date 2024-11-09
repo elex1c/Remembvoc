@@ -60,7 +60,8 @@
                 <TextBlock Grid.Row="1" Margin="30 20 30 0"
                            Foreground="{StaticResource DefaultTextBrush}" FontWeight="Bold"
                            FontSize="16" TextWrapping="WrapWithOverflow"
-                           Name="tbGeneratedSentence" VerticalAlignment="Center">
+                           Name="tbGeneratedSentence" VerticalAlignment="Center"
+                           Text="Generating..">
                 </TextBlock>
             
                 <TextBox Grid.Row="2" Name="tbUserInput"

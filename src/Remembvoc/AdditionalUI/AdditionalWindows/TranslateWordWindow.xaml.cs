@@ -26,8 +26,7 @@ public partial class TranslateWordWindow : Window
     {
         if (_word is null)
         {
-            // ERROR
-            MessageBox.Show("It is impossible to get your word from database. Try delete and add this word again.");
+            ShowError("It is impossible to get your word from database. Try delete and add the word again.");
             
             Close();
             
@@ -38,8 +37,7 @@ public partial class TranslateWordWindow : Window
         
         if (string.IsNullOrEmpty(sentence))
         {
-            // ERROR
-            MessageBox.Show("Error while generating a text. Check you Wi-Fi connection and your API Key.");
+            ShowError("Error while generating a text. Check you Wi-Fi connection and your API Key.");
             
             Close();
             
@@ -97,6 +95,8 @@ public partial class TranslateWordWindow : Window
         var context = new DatabaseContext();
         context.Priorities.Update(_word.Priorities);
         context.SaveChanges();
+        
+        Close();
     }
 
     private async void ShowError(string errorText)
