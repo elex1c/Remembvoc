@@ -12,7 +12,6 @@ public partial class AddNewWordWindow : Window
     public List<string> Languages { get; set; }
     public string ButtonText { get; set; }
     private DatabaseContext DbContext { get; }
-    public string UserInput { get; set; }
     private const string DIALOG_HOST_IDENTIFIER = "AddNewWordDialogHost";
     
     public AddNewWordWindow(string btnText, DatabaseContext context)
@@ -81,7 +80,7 @@ public partial class AddNewWordWindow : Window
 
     private async void ShowError(string errorText)
     {
-        var errorDialog = new ErrorDialogUserControl() { ErrorText = errorText, DialogHostIdentifier = DIALOG_HOST_IDENTIFIER };
+        var errorDialog = new ErrorDialogUserControl { ErrorText = errorText, DialogHostIdentifier = DIALOG_HOST_IDENTIFIER };
         
         await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
     }

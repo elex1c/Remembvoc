@@ -32,6 +32,18 @@
             <Setter Property="BorderBrush" Value="{StaticResource LighterColour}"/>
             <Setter Property="Foreground" Value="{StaticResource LighterColour}"/>
         </Style>
+        
+        <Style x:Key="RemoveWordButton" TargetType="Button" 
+               BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="#bbbfbc"/>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Brown"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 </Window.Resources>
 
     <Grid>
@@ -74,7 +86,7 @@
                             
                         <Grid.RowDefinitions>
                             <RowDefinition Height="445"/>
-                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="32"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                             
@@ -82,7 +94,7 @@
                                   CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Hidden" SelectionUnit="FullRow"
                                   IsReadOnly="True" Background="{StaticResource MainDarkColour}"
-                                  RowHeight="35">
+                                  RowHeight="36">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
                                                     Width="*" FontSize="14"/>
@@ -96,11 +108,10 @@
                                             <Grid Margin="-15 -15 -15 -15">
                                                 <Button Name="btnDelWord"
                                                         Click="BtnDelWord_OnClick" Tag="{Binding Phrase}"
-                                                        Foreground="Brown" Padding="0"
+                                                        Padding="0" ToolTip="Remove"
                                                         Background="Transparent" BorderThickness="0"
-                                                        FontSize="14" Style="{StaticResource MaterialDesignFlatButton}"
-                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                        ToolTip="Remove">
+                                                        FontSize="14" Style="{StaticResource RemoveWordButton}"
+                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                     <matDes:PackIcon Kind="CrossCircle" />
                                                 </Button>
                                             </Grid>
@@ -114,18 +125,22 @@
                               Name="gridPageButtons">
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Left" Style="{StaticResource DefaultButtonStyle}"
-                                    Content="◄" Padding="0 -5 0 0"
+                                    ToolTip="Previous page" Padding="0"
                                     FontSize="28" Name="btnMinusPage"
-                                    Click="BtnMinusPage_OnClick"/>
+                                    Click="BtnMinusPage_OnClick">
+                                <matDes:PackIcon Kind="ArrowBack"/>
+                            </Button>
                             <TextBlock Width="30" Foreground="{StaticResource LighterColour}"
                                        FontSize="18" FontWeight="Medium"
                                        TextAlignment="Center" VerticalAlignment="Center"
                                        Name="tbPageNumber" Text="1"/>
                             <Button BorderThickness="0" Width="30"
                                     HorizontalAlignment="Right" Style="{StaticResource DefaultButtonStyle}"
-                                    Content="►" Padding="0 -5 0 0"
+                                    Padding="0" ToolTip="Next page"
                                     FontSize="28" Name="btnPlusPage"
-                                    Click="BtnPlusPage_OnClick"/>
+                                    Click="BtnPlusPage_OnClick">
+                                <matDes:PackIcon Kind="ArrowRight"/>
+                            </Button>
                         </Grid>
                         
                         <Grid Grid.Row="2" Background="{StaticResource MainDarkColour}">

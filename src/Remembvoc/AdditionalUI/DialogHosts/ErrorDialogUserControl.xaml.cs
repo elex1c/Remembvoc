@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace Remembvoc.AdditionalUI.DialogHosts
 {
-    /// <summary>
-    /// Interakční logika pro ErrorDialogUserControl.xaml
-    /// </summary>
     public partial class ErrorDialogUserControl : UserControl
     {
         public string ErrorText { get; set; }

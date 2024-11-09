@@ -20,7 +20,7 @@ public partial class MainWindow : Window
     private App _app => (App)Application.Current;
     
     private int CurrentPageNumber { get; set; } = 1;
-    private const int ElementsPerPage = 5;
+    private const int ElementsPerPage = 11;
 
     private int TotalWordsAmount => DbContext.Words.Count();
     private int LastPage => (int)Math.Ceiling(TotalWordsAmount / (double)ElementsPerPage);

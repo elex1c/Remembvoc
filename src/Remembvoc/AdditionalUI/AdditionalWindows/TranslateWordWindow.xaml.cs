@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using Remembvoc.AdditionalUI.DialogHosts;
 using Remembvoc.Helper;
 using Remembvoc.Models.ApplicationModels;
 
@@ -10,7 +11,8 @@ public partial class TranslateWordWindow : Window
 {
     private App _app => (App)Application.Current;
     private Words? _word { get; set; }
-    
+    private const string DIALOG_HOST_IDENTIFIER = "TranslateWordDialogHost";
+
     public TranslateWordWindow(string word)
     {
         InitializeComponent();
@@ -71,8 +73,7 @@ public partial class TranslateWordWindow : Window
         string userInput = tbUserInput.Text.ToLower();
         if (string.IsNullOrEmpty(userInput))
         {
-            // ERROR
-            MessageBox.Show("You can't left the input empty");
+            ShowError("You can't left the input empty");
             return;
         }
         
@@ -82,7 +83,7 @@ public partial class TranslateWordWindow : Window
                 true);
             
             // Success message
-            MessageBox.Show("It's correct!");
+            ShowResult(true, "It's correct!");
         }
         else
         {
@@ -90,7 +91,7 @@ public partial class TranslateWordWindow : Window
                 false);
             
             // Fail message
-            MessageBox.Show("It isn't correct!");
+            ShowResult(false, "It isn't correct!");
         }
         
         var context = new DatabaseContext();
@@ -98,6 +99,24 @@ public partial class TranslateWordWindow : Window
         context.SaveChanges();
     }
 
+    private async void ShowError(string errorText)
+    {
+        var errorDialog = new ErrorDialogUserControl { ErrorText = errorText, DialogHostIdentifier = DIALOG_HOST_IDENTIFIER };
+        
+        await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
+    }
+    
+    private async void ShowResult(bool isCorrect, string resultText)
+    {
+        var errorDialog = new TranslateResultUserControl(isCorrect)
+        {
+            ResultText = resultText,
+            DialogHostIdentifier = DIALOG_HOST_IDENTIFIER
+        };
+        
+        await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
+    }
+    
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
         Close();
