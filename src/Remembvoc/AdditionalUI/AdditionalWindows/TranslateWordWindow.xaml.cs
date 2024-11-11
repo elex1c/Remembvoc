@@ -43,12 +43,14 @@ public partial class TranslateWordWindow : Window
             
             return;
         }
-        
+
         AddTextToTextBlock(sentence);
     }
 
     private void AddTextToTextBlock(string text)
     {
+        tbGeneratedSentence.Text = "";
+        
         string[] parts = text.Split([_word!.Phrase], StringSplitOptions.None);
             
         for (int i = 0; i < parts.Length; i++)
@@ -66,7 +68,7 @@ public partial class TranslateWordWindow : Window
         }
     }
     
-    private void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
+    private async void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
     {
         string userInput = tbUserInput.Text.ToLower();
         if (string.IsNullOrEmpty(userInput))
@@ -81,7 +83,7 @@ public partial class TranslateWordWindow : Window
                 true);
             
             // Success message
-            ShowResult(true, "It's correct!");
+            await ShowResult(true, "It's correct!");
         }
         else
         {
@@ -89,12 +91,12 @@ public partial class TranslateWordWindow : Window
                 false);
             
             // Fail message
-            ShowResult(false, "It isn't correct!");
+            await ShowResult(false, "It isn't correct!");
         }
         
         var context = new DatabaseContext();
         context.Priorities.Update(_word.Priorities);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         
         Close();
     }
@@ -106,7 +108,7 @@ public partial class TranslateWordWindow : Window
         await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
     }
     
-    private async void ShowResult(bool isCorrect, string resultText)
+    private async Task ShowResult(bool isCorrect, string resultText)
     {
         var errorDialog = new TranslateResultUserControl(isCorrect)
         {

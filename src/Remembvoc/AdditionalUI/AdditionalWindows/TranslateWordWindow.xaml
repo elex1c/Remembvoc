@@ -57,13 +57,17 @@
                     </Border>
                 </Grid>
             
-                <TextBlock Grid.Row="1" Margin="30 20 30 0"
-                           Foreground="{StaticResource DefaultTextBrush}" FontWeight="Bold"
-                           FontSize="16" TextWrapping="WrapWithOverflow"
-                           Name="tbGeneratedSentence" VerticalAlignment="Center"
-                           Text="Generating..">
-                </TextBlock>
-            
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                              Grid.Row="1" Margin="30 20 30 0">
+                    <TextBlock Foreground="{StaticResource DefaultTextBrush}" FontWeight="Bold"
+                               FontSize="16" TextWrapping="Wrap"
+                               Name="tbGeneratedSentence" VerticalAlignment="Center"
+                               Text="Generating.."
+                               materialDesign:ScrollBarAssist.ButtonsVisibility="Visible"
+                               materialDesign:ScrollViewerAssist.BubbleVerticalScroll="True">
+                    </TextBlock>
+                </ScrollViewer>
+                
                 <TextBox Grid.Row="2" Name="tbUserInput"
                          Width="200" FontSize="18" 
                          Foreground="{StaticResource DefaultTextBrush}"

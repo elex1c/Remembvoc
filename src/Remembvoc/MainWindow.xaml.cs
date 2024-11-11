@@ -18,12 +18,13 @@ public partial class MainWindow : Window
 {
     private DatabaseContext DbContext { get; set; }
     private App _app => (App)Application.Current;
-    
+
     private int CurrentPageNumber { get; set; } = 1;
     private const int ElementsPerPage = 11;
 
     private int TotalWordsAmount => DbContext.Words.Count();
     private int LastPage => (int)Math.Ceiling(TotalWordsAmount / (double)ElementsPerPage);
+    private bool IsMovingOnNextPage => (TotalWordsAmount - 1) % ElementsPerPage == 0;
     
     public MainWindow()
     {
@@ -41,7 +42,7 @@ public partial class MainWindow : Window
         // Updates time since last check to word revising
         DbMethods.UpdateTimeInPriorities();
         // Loads words from vocabulary
-        LoadWordsToCurrentPage();
+        LoadWordsToCurrentPage(true);
         // Loads words to translate
         LoadWordsToTranslate();
     }
@@ -51,6 +52,9 @@ public partial class MainWindow : Window
         if (TotalWordsAmount <= ElementsPerPage)
         {
             gridPageButtons.Visibility = Visibility.Collapsed;
+            CurrentPageNumber = 1;
+            tbPageNumber.Text = CurrentPageNumber.ToString();
+            LoadWordsToCurrentPage(false);
         }
         else
         {
@@ -68,7 +72,7 @@ public partial class MainWindow : Window
             {
                 CurrentPageNumber -= 1;
                 tbPageNumber.Text = CurrentPageNumber.ToString();
-                LoadWordsToCurrentPage();
+                LoadWordsToCurrentPage(true);
             }
             else
             {
@@ -78,7 +82,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void LoadWordsToCurrentPage()
+    private void LoadWordsToCurrentPage(bool reloadButtons)
     {
         var words = DbContext.Words
             .Include(w => w.Language)
@@ -94,7 +98,7 @@ public partial class MainWindow : Window
         vocabularyDataGrid.ItemsSource = new ObservableCollection<Word>(list);
         vocabularyDataGrid.Items.Refresh();
 
-        LoadPageButtons();
+        if (reloadButtons) LoadPageButtons();
     }
 
     private void LoadWordsToTranslate()
@@ -137,7 +141,7 @@ public partial class MainWindow : Window
                 .Single(word => word.Phrase == button!.Tag.ToString()));
         
         DbContext.SaveChanges();
-        LoadWordsToCurrentPage();
+        LoadWordsToCurrentPage(true);
         LoadWordsToTranslate();
     }
 
@@ -145,8 +149,15 @@ public partial class MainWindow : Window
     {
         AddNewWordWindow w = new ("Add new word", DbContext);
         w.ShowDialog();
+
+        if (IsMovingOnNextPage)
+        {
+            CurrentPageNumber += 1;
+            tbPageNumber.Text = CurrentPageNumber.ToString();
+        }
         
-        LoadWordsToCurrentPage();
+        LoadPageButtons();
+        LoadWordsToCurrentPage(true);
     }
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
@@ -155,13 +166,15 @@ public partial class MainWindow : Window
 
         var window = new TranslateWordWindow(button?.Tag.ToString() ?? "");
         window.ShowDialog();
+        
+        LoadWordsToTranslate();
     }
 
     private void BtnMinusPage_OnClick(object sender, RoutedEventArgs e)
     {
         CurrentPageNumber -= 1;
         
-        LoadWordsToCurrentPage();
+        LoadWordsToCurrentPage(true);
         
         tbPageNumber.Text = CurrentPageNumber.ToString();
     }
@@ -170,7 +183,7 @@ public partial class MainWindow : Window
     {
         CurrentPageNumber += 1;
         
-        LoadWordsToCurrentPage();
+        LoadWordsToCurrentPage(true);
         
         tbPageNumber.Text = CurrentPageNumber.ToString();
     }
