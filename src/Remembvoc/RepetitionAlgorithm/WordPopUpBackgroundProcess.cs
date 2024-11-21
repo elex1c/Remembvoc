@@ -29,7 +29,8 @@ namespace Remembvoc.RepetitionAlgorithm
         
         public void ProcessWordsForRevising(List<Words> wordsList, bool notification)
         {
-            WordsToTranslate = new ObservableCollection<Words>(wordsList);
+            WordsToTranslate.Clear();
+            foreach (var word in wordsList) WordsToTranslate.Add(word);
             
             if (WordsToTranslate.Count == 0) return;
             

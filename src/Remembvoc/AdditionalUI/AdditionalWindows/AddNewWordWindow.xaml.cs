@@ -6,7 +6,7 @@ using Languages = Remembvoc.Models.Languages;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
-public partial class AddNewWordWindow : Window
+public partial class AddNewWordWindow : Window, IDisposable
 {
     private Action<DatabaseContext, string> ButtonAction { get; set; }
     public List<string> Languages { get; set; }
@@ -85,5 +85,10 @@ public partial class AddNewWordWindow : Window
     private void OneBoxOneButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
+    }
+
+    public void Dispose()
+    {
+        DbContext.Dispose();
     }
 }

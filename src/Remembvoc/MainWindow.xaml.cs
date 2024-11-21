@@ -5,7 +5,6 @@ using Remembvoc.AdditionalUI.AdditionalWindows;
 using Remembvoc.Helper;
 using Remembvoc.Models;
 using Remembvoc.Models.ApplicationModels;
-using Remembvoc.SentencesLibraries;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
 
@@ -22,6 +21,7 @@ public partial class MainWindow : Window
     private int CurrentPageNumber { get; set; } = 1;
     private const int ElementsPerPage = 11;
 
+    private ObservableCollection<Word> WordsList { get; set; } = [];
     private int TotalWordsAmount => DbContext.Words.Count();
     private int LastPage => (int)Math.Ceiling(TotalWordsAmount / (double)ElementsPerPage);
     private bool IsMovingOnNextPage => (TotalWordsAmount - 1) % ElementsPerPage == 0;
@@ -47,6 +47,19 @@ public partial class MainWindow : Window
         LoadWordsToTranslate();
     }
 
+    private void UpdateWordsList()
+    {
+        var wordsList = DbContext.Words
+            .Include(w => w.Language)
+            .OrderBy(x => x.Id)
+            .Skip(CurrentPageNumber * ElementsPerPage - ElementsPerPage)
+            .Take(ElementsPerPage)
+            .ToList();
+        
+        WordsList.Clear();
+        foreach (var word in wordsList) WordsList.Add((Word)word);
+    }
+    
     private void LoadPageButtons()
     {
         if (TotalWordsAmount <= ElementsPerPage)
@@ -84,18 +97,9 @@ public partial class MainWindow : Window
 
     private void LoadWordsToCurrentPage(bool reloadButtons)
     {
-        var words = DbContext.Words
-            .Include(w => w.Language)
-            .OrderBy(x => x.Id)
-            .Skip(CurrentPageNumber * ElementsPerPage - ElementsPerPage)
-            .Take(ElementsPerPage)
-            .ToList();
-
-        List<Word> list = new();
-        foreach (var word in words)
-            list.Add((Word)word);
-
-        vocabularyDataGrid.ItemsSource = new ObservableCollection<Word>(list);
+        UpdateWordsList();
+        
+        vocabularyDataGrid.ItemsSource = WordsList;
         vocabularyDataGrid.Items.Refresh();
 
         if (reloadButtons) LoadPageButtons();

@@ -93,8 +93,8 @@ public partial class TranslateWordWindow : Window
             // Fail message
             await ShowResult(false, "It isn't correct!");
         }
-        
-        var context = new DatabaseContext();
+
+        await using var context = new DatabaseContext();
         context.Priorities.Update(_word.Priorities);
         await context.SaveChangesAsync();
         

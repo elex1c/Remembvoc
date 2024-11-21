@@ -7,7 +7,7 @@ public static class DbMethods
 {
     public static void UpdateTimeInPriorities()
     {
-        var context = new DatabaseContext();
+        using var context = new DatabaseContext();
         
         var priorities = context.Priorities.ToList();
 
@@ -19,7 +19,7 @@ public static class DbMethods
 
     public static List<Words> GetWordsForRevising(int elementsPerPage, int pageNumber)
     {
-        var context = new DatabaseContext();
+        using var context = new DatabaseContext();
         
         return context.Priorities.Include(p => p.Words)
             .Where(p => p.MinutesToRepeat <= 0)
@@ -32,7 +32,7 @@ public static class DbMethods
 
     public static Words? GetWordElement(string word)
     {
-        var context = new DatabaseContext();
+        using var context = new DatabaseContext();
 
         return context.Words.Include(w => w.Language)
             .Include(w => w.Priorities)
