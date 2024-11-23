@@ -13,7 +13,7 @@ namespace Remembvoc;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, IDisposable
 {
     private DatabaseContext DbContext { get; set; }
     private App _app => (App)Application.Current;
@@ -34,10 +34,10 @@ public partial class MainWindow : Window
         
         DbContext = ((App)Application.Current).DatabaseContext;
         
-        Loaded += (_, _) => BasicStartMethods();
+        Loaded += BasicStartMethods;
     }
 
-    private void BasicStartMethods()
+    private void BasicStartMethods(object sender, EventArgs e)
     {
         // Updates time since last check to word revising
         DbMethods.UpdateTimeInPriorities();
@@ -50,6 +50,7 @@ public partial class MainWindow : Window
     private void UpdateWordsList()
     {
         var wordsList = DbContext.Words
+            .AsNoTracking()
             .Include(w => w.Language)
             .OrderBy(x => x.Id)
             .Skip(CurrentPageNumber * ElementsPerPage - ElementsPerPage)
@@ -160,6 +161,8 @@ public partial class MainWindow : Window
             tbPageNumber.Text = CurrentPageNumber.ToString();
         }
         
+        w = null!;
+        
         LoadPageButtons();
         LoadWordsToCurrentPage(true);
     }
@@ -170,6 +173,9 @@ public partial class MainWindow : Window
 
         var window = new TranslateWordWindow(button?.Tag.ToString() ?? "");
         window.ShowDialog();
+        
+        window.Dispose();
+        window = null!;
         
         LoadWordsToTranslate();
     }
@@ -190,5 +196,10 @@ public partial class MainWindow : Window
         LoadWordsToCurrentPage(true);
         
         tbPageNumber.Text = CurrentPageNumber.ToString();
+    }
+
+    public void Dispose()
+    {
+        Loaded -= BasicStartMethods;
     }
 }

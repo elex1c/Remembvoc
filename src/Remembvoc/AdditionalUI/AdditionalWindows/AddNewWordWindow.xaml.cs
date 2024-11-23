@@ -6,18 +6,16 @@ using Languages = Remembvoc.Models.Languages;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
-public partial class AddNewWordWindow : Window, IDisposable
+public partial class AddNewWordWindow : Window
 {
     private Action<DatabaseContext, string> ButtonAction { get; set; }
     public List<string> Languages { get; set; }
     public string ButtonText { get; set; }
-    private DatabaseContext DbContext { get; }
     private const string DIALOG_HOST_IDENTIFIER = "AddNewWordDialogHost";
     
     public AddNewWordWindow(string btnText, DatabaseContext context)
     {
         ButtonText = btnText;
-        DbContext = context;
         Languages = Enum.GetNames(typeof(Languages)).ToList();
         
         InitializeComponent();
@@ -27,6 +25,8 @@ public partial class AddNewWordWindow : Window, IDisposable
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
+        using var dbContext = new DatabaseContext();
+        
         string phrase = tbUserInput.Text
             .Trim()
             .ToLower();
@@ -34,11 +34,11 @@ public partial class AddNewWordWindow : Window, IDisposable
             .Trim()
             .ToLower();
         
-        int langId = DbContext.Languages
+        int langId = dbContext.Languages
             .FirstOrDefault(x => x.ShortForm == cbLanguage.Text)?
             .Id ?? -1;
 
-        bool isWordInDictionary = DbContext.Words
+        bool isWordInDictionary = dbContext.Words
             .FirstOrDefault(x => x.Phrase == phrase) != null;
 
         if (isWordInDictionary)
@@ -58,14 +58,14 @@ public partial class AddNewWordWindow : Window, IDisposable
         }
 
         Words word = new Words { Phrase = phrase, LanguageId = langId, Translation = translation };
-        DbContext.Words.Add(word);
-        DbContext.SaveChanges();
+        dbContext.Words.Add(word);
+        dbContext.SaveChanges();
 
         Priorities priority = new Priorities();
         RepetitionAlgorithm.Counting.DefaultSet(priority, 1440);
         priority.Id = word.Id;
-        DbContext.Priorities.Add(priority);
-        DbContext.SaveChanges();
+        dbContext.Priorities.Add(priority);
+        dbContext.SaveChanges();
         
         Close();
     }
@@ -85,10 +85,5 @@ public partial class AddNewWordWindow : Window, IDisposable
     private void OneBoxOneButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
-    }
-
-    public void Dispose()
-    {
-        DbContext.Dispose();
     }
 }

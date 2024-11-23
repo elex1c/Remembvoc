@@ -7,7 +7,7 @@ using Remembvoc.Models.ApplicationModels;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
-public partial class TranslateWordWindow : Window
+public partial class TranslateWordWindow : Window, IDisposable
 {
     private App _app => (App)Application.Current;
     private Words? _word { get; set; }
@@ -94,9 +94,11 @@ public partial class TranslateWordWindow : Window
             await ShowResult(false, "It isn't correct!");
         }
 
-        await using var context = new DatabaseContext();
-        context.Priorities.Update(_word.Priorities);
-        await context.SaveChangesAsync();
+        await using (var context = new DatabaseContext())
+        {
+            context.Priorities.Update(_word.Priorities);
+            await context.SaveChangesAsync();
+        }
         
         Close();
     }
@@ -127,5 +129,10 @@ public partial class TranslateWordWindow : Window
     private void TranslateWord_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
+    }
+
+    public void Dispose()
+    {
+        Loaded -= GenerateTextAsync;
     }
 }
