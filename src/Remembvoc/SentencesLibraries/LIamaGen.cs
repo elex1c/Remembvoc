@@ -8,7 +8,7 @@ namespace Remembvoc.SentencesLibraries;
 
 public class LIamaGen : ISentenceGen
 {
-    private const string API_KEY = "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";
+    private const string API_KEY = "";
     private const string ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
     private const string MODEL = "llama3-8b-8192";
 
