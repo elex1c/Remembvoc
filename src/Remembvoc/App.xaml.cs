@@ -1,8 +1,6 @@
 ﻿using System.Windows;
-using Remembvoc.Core.BackgroundProcesses;
+using Remembvoc.RepetitionAlgorithm;
 using Remembvoc.SentencesLibraries;
-using Remembvoc.Infrastructure;
-using Remembvoc.Infrastructure.GroqApi;
 
 namespace Remembvoc;
 

@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Remembvoc.Core.Common.Models;
+namespace Remembvoc.Models.ApplicationModels;
 
-public class LanguageEntity
+public class Languages
 {
     public int Id { get; set; }
     [Required]
     public string ShortForm { get; set; }
-    public List<WordEntity> Words { get; set; }
+    public List<Words> Words { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+
 #nullable disable
 
 namespace Remembvoc.Migrations

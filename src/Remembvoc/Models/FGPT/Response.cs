@@ -1,4 +1,4 @@
-namespace Remembvoc.Infrastructure.GroqApi.Models;
+namespace Remembvoc.Models.FGPT;
 
 public class Response
 {

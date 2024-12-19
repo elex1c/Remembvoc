@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using Remembvoc.Core.BackgroundProcesses.Interfaces;
-using Remembvoc.Core.Common.Models;
+using Remembvoc.Models.ApplicationModels;
 
-namespace Remembvoc.Core.BackgroundProcesses;
-
-    public class WordPopUpBackgroundProcess(App app) : IWordPopUpBackgroundProcess
+namespace Remembvoc.RepetitionAlgorithm
+{
+    public class WordPopUpBackgroundProcess(App app)
     {
         private readonly CancellationTokenSource _cancellationToken = new();
 
-        public ObservableCollection<WordEntity> WordsToTranslate { get; set; } = new();
+        public ObservableCollection<Words> WordsToTranslate { get; set; } = new();
         
         public void Start()
         {
@@ -28,7 +27,7 @@ namespace Remembvoc.Core.BackgroundProcesses;
 
         }
         
-        public void ProcessWordsForRevising(List<WordEntity> wordsList, bool notification)
+        public void ProcessWordsForRevising(List<Words> wordsList, bool notification)
         {
             WordsToTranslate.Clear();
             foreach (var word in wordsList) WordsToTranslate.Add(word);
@@ -55,4 +54,4 @@ namespace Remembvoc.Core.BackgroundProcesses;
         }
     }
 
-
+}

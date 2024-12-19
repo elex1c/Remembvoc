@@ -3,15 +3,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using Remembvoc.AdditionalUI.DialogHosts;
 using Remembvoc.Helper;
-using Remembvoc.Core.Common.Models;
-using Remembvoc.Infrastructure;
+using Remembvoc.Models.ApplicationModels;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
 public partial class TranslateWordWindow : Window, IDisposable
 {
     private App _app => (App)Application.Current;
-    private WordEntity? _word { get; set; }
+    private Words? _word { get; set; }
     private const string DIALOG_HOST_IDENTIFIER = "TranslateWordDialogHost";
 
     public TranslateWordWindow(string word)
@@ -34,7 +33,7 @@ public partial class TranslateWordWindow : Window, IDisposable
             return;
         }
         
-        string? sentence = await _app.SentenceGenerator.GenerateSentence(_word.Phrase, _word.LanguageEntity.ShortForm);
+        string? sentence = await _app.SentenceGenerator.GenerateSentence(_word.Phrase, _word.Language.ShortForm);
         
         if (string.IsNullOrEmpty(sentence))
         {
@@ -80,7 +79,7 @@ public partial class TranslateWordWindow : Window, IDisposable
         
         if (_word!.Translation == userInput)
         {
-            RepetitionAlgorithm.Counting.CountPoints(_word.PriorityEntity,
+            RepetitionAlgorithm.Counting.CountPoints(_word.Priorities,
                 true);
             
             // Success message
@@ -88,7 +87,7 @@ public partial class TranslateWordWindow : Window, IDisposable
         }
         else
         {
-            RepetitionAlgorithm.Counting.CountPoints(_word.PriorityEntity,
+            RepetitionAlgorithm.Counting.CountPoints(_word.Priorities,
                 false);
             
             // Fail message
@@ -97,7 +96,7 @@ public partial class TranslateWordWindow : Window, IDisposable
 
         await using (var context = new DatabaseContext())
         {
-            context.Priorities.Update(_word.PriorityEntity);
+            context.Priorities.Update(_word.Priorities);
             await context.SaveChangesAsync();
         }
         

@@ -2,10 +2,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Remembvoc.Infrastructure.GroqApi.Models;
-using Remembvoc.SentencesLibraries;
+using Remembvoc.Models.FGPT;
 
-namespace Remembvoc.Infrastructure.GroqApi;
+namespace Remembvoc.SentencesLibraries;
 
 public class LIamaGen : ISentenceGen
 {

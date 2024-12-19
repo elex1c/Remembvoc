@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Remembvoc.Infrastructure;
+using Remembvoc;
 
 #nullable disable
 
 namespace Remembvoc.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241007125613_Initial")]
-    partial class Initial
+    [Migration("20241018172502_AddedWorldTranslationColumn")]
+    partial class AddedWorldTranslationColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,10 @@ namespace Remembvoc.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Phrase")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Translation")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
