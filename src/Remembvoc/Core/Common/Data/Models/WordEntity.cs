@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Remembvoc.Models.ApplicationModels;
+namespace Remembvoc.Core.Common.Models;
 
-public class Words
+public class WordEntity
 {
     public int Id { get; set; }
     [Required]
@@ -10,6 +10,6 @@ public class Words
     [Required]
     public string Translation { get; set; }
     public int LanguageId { get; set; }
-    public Languages Language { get; set; }
-    public virtual Priorities Priorities { get; set; }
+    public LanguageEntity LanguageEntity { get; set; }
+    public virtual PriorityEntity PriorityEntity { get; set; }
 }

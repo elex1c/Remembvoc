@@ -1,4 +1,4 @@
-namespace Remembvoc.Models;
+namespace Remembvoc.Core.Common.Enums;
 
 public enum Languages
 {

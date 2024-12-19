@@ -1,8 +1,9 @@
 using System.Windows;
 using System.Windows.Input;
 using Remembvoc.AdditionalUI.DialogHosts;
-using Remembvoc.Models.ApplicationModels;
-using Languages = Remembvoc.Models.Languages;
+using Remembvoc.Core.Common.Models;
+using Remembvoc.Infrastructure;
+using Languages = Remembvoc.Core.Common.Enums;
 
 namespace Remembvoc.AdditionalUI.AdditionalWindows;
 
@@ -16,7 +17,7 @@ public partial class AddNewWordWindow : Window
     public AddNewWordWindow(string btnText, DatabaseContext context)
     {
         ButtonText = btnText;
-        Languages = Enum.GetNames(typeof(Languages)).ToList();
+        Languages = Enum.GetNames(typeof(Languages.Languages)).ToList();
         
         InitializeComponent();
 
@@ -57,14 +58,14 @@ public partial class AddNewWordWindow : Window
             return;
         }
 
-        Words word = new Words { Phrase = phrase, LanguageId = langId, Translation = translation };
-        dbContext.Words.Add(word);
+        WordEntity wordEntity = new WordEntity { Phrase = phrase, LanguageId = langId, Translation = translation };
+        dbContext.Words.Add(wordEntity);
         dbContext.SaveChanges();
 
-        Priorities priority = new Priorities();
-        RepetitionAlgorithm.Counting.DefaultSet(priority, 1440);
-        priority.Id = word.Id;
-        dbContext.Priorities.Add(priority);
+        PriorityEntity priorityEntity = new PriorityEntity();
+        RepetitionAlgorithm.Counting.DefaultSet(priorityEntity, 1440);
+        priorityEntity.Id = wordEntity.Id;
+        dbContext.Priorities.Add(priorityEntity);
         dbContext.SaveChanges();
         
         Close();

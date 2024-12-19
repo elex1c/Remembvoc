@@ -3,8 +3,8 @@ using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Remembvoc.AdditionalUI.AdditionalWindows;
 using Remembvoc.Helper;
-using Remembvoc.Models;
-using Remembvoc.Models.ApplicationModels;
+using Remembvoc.Core.Common.Models;
+using Remembvoc.Infrastructure;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
 
@@ -51,7 +51,7 @@ public partial class MainWindow : Window, IDisposable
     {
         var wordsList = DbContext.Words
             .AsNoTracking()
-            .Include(w => w.Language)
+            .Include(w => w.LanguageEntity)
             .OrderBy(x => x.Id)
             .Skip(CurrentPageNumber * ElementsPerPage - ElementsPerPage)
             .Take(ElementsPerPage)

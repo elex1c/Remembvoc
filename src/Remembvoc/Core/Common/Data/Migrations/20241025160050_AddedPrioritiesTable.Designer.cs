@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Remembvoc;
+using Remembvoc.Infrastructure;
 
 #nullable disable
 
 namespace Remembvoc.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabseContextModelSnapshot : ModelSnapshot
+    [Migration("20241025160050_AddedPrioritiesTable")]
+    partial class AddedPrioritiesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");

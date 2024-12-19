@@ -1,4 +1,4 @@
-using Remembvoc.Models;
+using Remembvoc;
 
 namespace Remembvoc.SentencesLibraries;
 
