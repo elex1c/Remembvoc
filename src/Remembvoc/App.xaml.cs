@@ -9,6 +9,7 @@ namespace Remembvoc;
 /// </summary>
 public partial class App : Application
 {
+    public readonly NotifyIconBackground BackgroundIcon = new ();
     public readonly DatabaseContext DatabaseContext = new ();
     public readonly WordPopUpBackgroundProcess BackgroundProcess;
     public readonly ISentenceGen SentenceGenerator = new LIamaGen();
