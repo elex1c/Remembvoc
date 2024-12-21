@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Remembvoc.Infrastructure.Data.ModelsDTO;
+namespace Remembvoc.ApplicationCore.Common.Models.Entities;
 
-public class WordDTO
+public class WordEntity
 {
     public int Id { get; set; }
     [Required]
@@ -11,7 +11,7 @@ public class WordDTO
     public string Translation { get; set; }
     
     public int LanguageId { set; get; }
-    public virtual LanguageDTO Language { set; get; }
+    public virtual LanguageEntity Language { set; get; }
     
-    public virtual PriorityDTO Priority { set; get; }
+    public virtual PriorityEntity Priority { set; get; }
 }

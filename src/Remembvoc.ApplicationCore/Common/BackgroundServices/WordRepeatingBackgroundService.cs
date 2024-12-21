@@ -1,6 +1,6 @@
-using Remembvoc.Core.Common.Interfaces;
+using Remembvoc.ApplicationCore.Common.Interfaces;
 
-namespace Remembvoc.Core.Common.BackgroundServices;
+namespace Remembvoc.ApplicationCore.Common.BackgroundServices;
 
 public class WordRepeatingBackgroundService : IBackgroundService
 {

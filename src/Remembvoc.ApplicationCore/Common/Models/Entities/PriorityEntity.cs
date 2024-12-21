@@ -1,6 +1,6 @@
-namespace Remembvoc.Infrastructure.Data.ModelsDTO;
+namespace Remembvoc.ApplicationCore.Common.Models.Entities;
 
-public class PriorityDTO
+public class PriorityEntity
 {
     public int Id { get; set; }
     public double Points { get; set; }
@@ -9,5 +9,5 @@ public class PriorityDTO
     public int Period { get; set; }
 
     public int WordId { get; set; }
-    public virtual WordDTO Word { get; set; }
+    public virtual WordEntity Word { get; set; }
 }

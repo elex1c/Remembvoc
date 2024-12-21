@@ -1,4 +1,4 @@
-namespace Remembvoc.Core.Common.Interfaces;
+namespace Remembvoc.ApplicationCore.Common.Interfaces;
 
 public interface IBackgroundService
 {

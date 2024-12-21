@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remembvoc", "Remembvoc\Remembvoc.csproj", "{26C1D04A-E6BD-4A7A-8C50-5B4273F71A1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remembvoc.Core", "Remembvoc.Core\Remembvoc.Core.csproj", "{660D142A-D975-4760-A601-8A391168B4D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remembvoc.ApplicationCore", "Remembvoc.ApplicationCore\Remembvoc.ApplicationCore.csproj", "{660D142A-D975-4760-A601-8A391168B4D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remembvoc.Infrastructure", "Remembvoc.Infrastructure\Remembvoc.Infrastructure.csproj", "{A07B4675-56EF-44A5-B0F2-6461BCAFD0C2}"
 EndProject

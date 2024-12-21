@@ -1,9 +1,9 @@
-namespace Remembvoc.Core.Common.Models;
+namespace Remembvoc.ApplicationCore.Common.Models.DTOs;
 
 public class Word
 {
     public int Id { get; set; }
     public string Phrase { get; set; }
     public string Translation { get; set; }
-    public int LanguageId { set; get; }
+    public Language Language { get; set; }
 }

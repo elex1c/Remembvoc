@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Remembvoc.AdditionalUI.AdditionalWindows;
 using Remembvoc.Helper;
 using Remembvoc.Models;
-using Remembvoc.Models.ApplicationModels;
 using AddNewWordWindow = Remembvoc.AdditionalUI.AdditionalWindows.AddNewWordWindow;
 using Application = System.Windows.Application;
 
