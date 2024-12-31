@@ -1,7 +1,10 @@
+using Remembvoc.ApplicationCore.Common.Events;
+
 namespace Remembvoc.ApplicationCore.Common.Interfaces;
 
-public interface IBackgroundService
+public interface IBackgroundService<in TParameters> 
+    where TParameters : IBackgroundServiceParameters
 {
-    public void Start(IBackgroundServiceParameters parameters);
-    public void Stop();
+    void Start(TParameters? parameters);
+    void Stop();
 }

@@ -1,6 +1,6 @@
 using AutoMapper;
 using Remembvoc.ApplicationCore.Common.Mappings.Resolvers;
-using Remembvoc.ApplicationCore.Common.Models.DTOs;
+using Remembvoc.ApplicationCore.Common.Models.DomainModels;
 using Remembvoc.ApplicationCore.Common.Models.Entities;
 
 namespace Remembvoc.ApplicationCore.Common.Mappings;

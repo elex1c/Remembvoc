@@ -6,5 +6,5 @@ public interface IPriorityRepository : IRepository<PriorityEntity>
 {
     public Task<PriorityEntity?> GetPriorityByIdAsync(int id);
     public Task UpdatePrioritiesAsync(IEnumerable<PriorityEntity> priorities);
-    public Task UpdateSinglePriorityByIdAsync(PriorityEntity priorityEntity);
+    public Task UpdateSinglePriorityAsync(PriorityEntity priorityEntity);
 }

@@ -19,6 +19,18 @@ public class WordRepository : IWordRepository
         return await _context.Words.ToListAsync();
     }
 
+    public async Task AddWordAsync(WordEntity wordEntity)
+    {
+        await _context.Words.AddAsync(wordEntity);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteWordAsync(WordEntity wordEntity)
+    {
+        _context.Words.Remove(wordEntity);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<List<WordEntity>> GetAllWithPrioritiesAsync()
     {
         return await _context.Words.Include(p => p.Priority)
@@ -28,16 +40,5 @@ public class WordRepository : IWordRepository
     public async Task<WordEntity?> GetWordByNameAsync(string word)
     {
         return await _context.Words.FirstOrDefaultAsync(w => w.Phrase == word); 
-    }
-
-    public async Task<List<WordEntity>> GetWordsForRevisingAsync(int elementsPerPage, int pageNumber)
-    {
-        return await _context.Priorities.Include(p => p.Word)
-            .Where(p => p.MinutesToRepeat <= 0)
-            .Select(p => p.Word)
-            .OrderBy(x => x.Id)
-            .Skip(pageNumber * elementsPerPage - elementsPerPage)
-            .Take(elementsPerPage)
-            .ToListAsync();
     }
 }

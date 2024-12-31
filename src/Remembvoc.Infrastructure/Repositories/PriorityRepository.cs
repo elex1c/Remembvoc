@@ -31,7 +31,7 @@ public class PriorityRepository : IPriorityRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateSinglePriorityByIdAsync(PriorityEntity priority)
+    public async Task UpdateSinglePriorityAsync(PriorityEntity priority)
     {
         _context.Priorities.Update(priority);
         

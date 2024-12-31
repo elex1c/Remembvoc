@@ -1,0 +1,54 @@
+namespace Remembvoc.UI.Models;
+
+public enum Languages
+{
+    Arabic,        // ARA
+    Afrikaans,    // AFR
+    Bengali,      // BEN
+    Belarusian,   // BEL
+    Bulgarian,    // BUL
+    Czech,        // CES
+    Chinese,      // CHN
+    Danish,       // DAN
+    German,       // DEU
+    English,      // ENG
+    Estonian,     // EST
+    Spanish,      // ESP
+    Filipino,     // FIL
+    Finnish,      // FIN
+    French,       // FRA
+    Greek,        // GRE
+    Hebrew,       // HEB
+    Hindi,        // HIN
+    Croatian,     // HRV
+    Hungarian,    // HUN
+    Indonesian,   // IND
+    Italian,      // ITA
+    Japanese,     // JPN
+    Korean,       // KOR
+    Latvian,      // LAT
+    Lithuanian,   // LIT
+    Malay,        // MAL
+    Marathi,      // MAR
+    Dutch,        // NLD
+    Norwegian,    // NOR
+    Polish,       // POL
+    Portuguese,   // POR
+    Punjabi,      // PUN
+    Romanian,     // ROM
+    Russian,      // RUS
+    Serbian,      // SRP
+    Slovenian,    // SLO
+    Slovak,       // SLK
+    Swahili,      // SWA
+    Swedish,      // SWE
+    Tamil,        // TAM
+    Telugu,       // TEL
+    Thai,         // THA
+    Turkish,      // TUR
+    Urdu,         // UDR
+    Ukrainian,    // UKR
+    Vietnamese,   // VIE
+    Xhosa,        // XHO
+    Zulu          // ZUL
+}
