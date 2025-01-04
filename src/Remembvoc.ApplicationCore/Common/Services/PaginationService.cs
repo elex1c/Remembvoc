@@ -1,3 +1,4 @@
+using Remembvoc.ApplicationCore.Common.BackgroundServices;
 using Remembvoc.ApplicationCore.Common.Enums;
 using Remembvoc.ApplicationCore.Common.Events;
 using Remembvoc.ApplicationCore.Common.Interfaces;
@@ -7,85 +8,79 @@ namespace Remembvoc.ApplicationCore.Common.Services;
 
 public class PaginationService : IPaginationService
 {
-    private readonly IWordService _wordService;
+    private PagesData _pagesData { get; set; }
 
-    public Page MainPage { get; set; }
-    public Page TranslationPage { get; set; }
-    public Page CurrentPage { get; set; }
-
-    public PaginationService(IWordService wordService)
+    public PaginationService(PagesData pagesData)
     {
-        _wordService = wordService;
-
-        DefaultConfigure();
+        _pagesData = pagesData;
         
-        wordService.WordListUpdated += OnWordListUpdated;
+        DefaultConfigure();
     }
 
     private void DefaultConfigure()
     {
-        CurrentPage = MainPage;
+        _pagesData.CurrentPage = _pagesData.MainPage;
     }
-    
+
     public Page SwitchPage(Pages pages)
     {
-        CurrentPage = pages switch
+        _pagesData.CurrentPage = pages switch
         {
-            Pages.Vocabulary => MainPage,
-            Pages.Translate => TranslationPage
+            Pages.Vocabulary => _pagesData.MainPage,
+            Pages.Translate => _pagesData.TranslationPage
         };
         
-        return CurrentPage;
+        return _pagesData.CurrentPage;
     }
 
     public Page NextPage()
     {
-        CurrentPage.CurrentPageNumber += 1;
+        _pagesData.CurrentPage.CurrentPageNumber += 1;
         LoadPageButtons();
-        return CurrentPage;
+        return _pagesData.CurrentPage;
     }
 
     public Page PreviousPage()
     {
-        CurrentPage.CurrentPageNumber -= 1;
+        _pagesData.CurrentPage.CurrentPageNumber -= 1;
         LoadPageButtons();
-        return CurrentPage;
+        return _pagesData.CurrentPage;
     }
 
     public void LoadPageButtons()
     {
-        if (CurrentPage.TotalWordsAmount <= CurrentPage.ElementsPerPage)
+        if (_pagesData.CurrentPage.TotalWordsAmount <= _pagesData.CurrentPage.ElementsPerPage)
         {
-            CurrentPage.IsVisible = false;
-            CurrentPage.CurrentPageNumber = 1;
+            _pagesData.CurrentPage.IsVisible = false;
+            _pagesData.CurrentPage.CurrentPageNumber = 1;
         }
         else
         {
-            if (CurrentPage.CurrentPageNumber == 1)
+            if (_pagesData.CurrentPage.CurrentPageNumber == 1)
             {
-                CurrentPage.IsPlusPageButtonEnabled = true;
-                CurrentPage.IsMinusPageButtonEnabled = false;
+                _pagesData.CurrentPage.IsPlusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsMinusPageButtonEnabled = false;
             }
-            else if (CurrentPage.CurrentPageNumber == CurrentPage.LastPage)
+            else if (_pagesData.CurrentPage.CurrentPageNumber == _pagesData.CurrentPage.LastPage)
             {
-                CurrentPage.IsPlusPageButtonEnabled = false;
-                CurrentPage.IsMinusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsPlusPageButtonEnabled = false;
+                _pagesData.CurrentPage.IsMinusPageButtonEnabled = true;
             }
-            else if (CurrentPage.CurrentPageNumber > CurrentPage.LastPage)
+            else if (_pagesData.CurrentPage.CurrentPageNumber > _pagesData.CurrentPage.LastPage)
             {
-                CurrentPage.CurrentPageNumber -= 1;
+                _pagesData.CurrentPage.CurrentPageNumber -= 1;
             }
             else
             {
-                CurrentPage.IsPlusPageButtonEnabled = true;
-                CurrentPage.IsMinusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsPlusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsMinusPageButtonEnabled = true;
             }
         }
     }
 
-    private async void OnWordListUpdated(object? sender, WordsListUpdatedEvent e)
+    private async void WordListUpdated(WordsListUpdatedEvent e)
     {
-        MainPage.TotalWordsAmount = await _wordService.CountWordsForWordList();
-        TranslationPage.TotalWordsAmount = await _wordService.CountWordsForRevisingAsync();
+        _pagesData.MainPage.TotalWordsAmount = e.VocabularyWordListTotalCount;
+        _pagesData.TranslationPage.TotalWordsAmount = e.TranslationWordListTotalCount;
     }
 }

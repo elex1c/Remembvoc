@@ -8,13 +8,6 @@ namespace Remembvoc.ApplicationCore.Common.Validation.UserInputValidation.Valida
 
 public class WordValidator : IWordValidator
 {
-    private readonly IWordService _wordService;
-    
-    public WordValidator(IWordService wordService)
-    {
-        _wordService = wordService;
-    }
-    
     public async Task<WordValidationResponse> Validate(WordInputModel model)
     {
         model.Phrase = model.Phrase
@@ -30,13 +23,6 @@ public class WordValidator : IWordValidator
             || string.IsNullOrEmpty(model.Phrase))
         {
             return new WordValidationResponse { IsValid = false, ErrorMessage = Errors.EMPTY_BOXES };
-        }
-
-        bool isWordInDictionary = await _wordService.GetWordByNameAsync(model.Phrase) != null;
-        
-        if (isWordInDictionary)
-        {
-            return new WordValidationResponse { IsValid = false, ErrorMessage = Errors.WORD_EXISTS };
         }
         
         bool isLanguageParsed = Enum.TryParse(model.Language, true, out Languages language);

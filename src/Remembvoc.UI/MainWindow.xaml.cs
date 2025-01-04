@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Remembvoc.ApplicationCore.Common.Enums;
 using Remembvoc.ApplicationCore.Common.Interfaces;
-using Remembvoc.UI.ViewModels;
+using Remembvoc.ApplicationCore.Common.Models.ViewModels;
+using Remembvoc.UI.AdditionalUI.AdditionalWindows;
 using Page = Remembvoc.ApplicationCore.Common.Models.Page;
 
 namespace Remembvoc.UI;
@@ -13,43 +13,41 @@ namespace Remembvoc.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly INotificationIcon _notificationIcon;
-    private readonly IWordService _wordService;
+    private readonly Func<IWordService> _wordService;
     private readonly IPaginationService _paginationService;
+    private readonly AddNewWordWindow _addNewWordWindow;
 
-    public MainWindow(INotificationIcon notificationIcon, IWordService wordService, IPaginationService paginationService)
+    public MainWindow(Func<IWordService> wordService,
+        IPaginationService paginationService,
+        AddNewWordWindow addNewWordWindow,
+        MainViewModel mainViewModel)
     {
-        _notificationIcon = notificationIcon;
         _wordService = wordService;
         _paginationService = paginationService;
+        _addNewWordWindow = addNewWordWindow;
 
-        DataContext = new MainViewModel(_wordService);
+        DataContext = mainViewModel;
         
         InitializeComponent();
 
         Loaded += StartUpConfigure;
     }
-
+    
     private async void StartUpConfigure(object sender, RoutedEventArgs e)
     {
-        await _wordService.GetAndSendUpdatedDataAsync();
+        var wordService = _wordService();
+        
+        await wordService.GetAndSendUpdatedDataAsync();
     }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        _notificationIcon.SetWindow(null);
-
-        base.OnClosed(e);
-    }
-
-    private void MWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    
+    private void MWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
     }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
-        Close();
+        Hide();
     }
 
     private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -59,14 +57,15 @@ public partial class MainWindow : Window
 
     private async void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
     {
+        var wordService = _wordService();
         var button = sender as System.Windows.Controls.Button;
         
-        await _wordService.DeleteWordAsync(button!.Tag.ToString()!);
+        await wordService.DeleteWordAsync(button!.Tag.ToString()!);
     }
 
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
     {
-        
+        _addNewWordWindow.ShowDialog();
     }
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)

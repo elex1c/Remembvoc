@@ -7,25 +7,25 @@ using Forms = System.Windows.Forms;
 
 namespace Remembvoc.UI;
 
+struct POINT
+{
+    public int X;
+    public int Y;
+}
+
 public class NotifyIconBackground : INotificationIcon, IDisposable
 {
-    private readonly IWordService _wordService;
-    private readonly IPaginationService _paginationService;
-    
-    private MainWindow? _mainWindow;
+    private readonly MainWindow _mainWindow;
     private Forms.NotifyIcon _trayIcon;
     private Forms.ContextMenuStrip  _trayMenu;
 
-    public NotifyIconBackground(MainWindow mainWindow,
-        IWordService wordService,
-        IPaginationService paginationService)
+    public NotifyIconBackground(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
-        _wordService = wordService;
-        _paginationService = paginationService;
-
+        
         CreateTrayIcon();
     } 
+    
     [DllImport("user32.dll")]
     private static extern bool GetCursorPos(out POINT lpPoint);
     
@@ -59,8 +59,6 @@ public class NotifyIconBackground : INotificationIcon, IDisposable
 
     private void ShowWindow()
     {
-        if (_mainWindow == null) return;
-
         if (_mainWindow.WindowState == WindowState.Minimized)
         {
             _mainWindow.WindowState = WindowState.Normal;
@@ -79,11 +77,9 @@ public class NotifyIconBackground : INotificationIcon, IDisposable
     
     private void OnOpen(object? sender, EventArgs e)
     {
-        _mainWindow ??= new MainWindow(this, _wordService, _paginationService)
-        {
-            Visibility = Visibility.Visible
-        };
-
+        if (_mainWindow.Visibility == Visibility.Hidden)
+            _mainWindow.Show();
+        
         ShowWindow();
     }
 
@@ -91,14 +87,6 @@ public class NotifyIconBackground : INotificationIcon, IDisposable
     {
         _trayIcon.Visible = false;
         Application.Current.Shutdown();
-    }
-    
-    public void SetWindow(object? window) => _mainWindow = (MainWindow?)window;
-
-    private struct POINT
-    {
-        public int X;
-        public int Y;
     }
 
     public void Dispose()

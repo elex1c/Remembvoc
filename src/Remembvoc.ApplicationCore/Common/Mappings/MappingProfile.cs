@@ -1,4 +1,5 @@
 using AutoMapper;
+using Remembvoc.ApplicationCore.Common.Mappings.Convertors;
 using Remembvoc.ApplicationCore.Common.Mappings.Resolvers;
 using Remembvoc.ApplicationCore.Common.Models.DomainModels;
 using Remembvoc.ApplicationCore.Common.Models.Entities;
@@ -14,6 +15,9 @@ public class MappingProfile : Profile
         
         CreateMap<WordEntity, Word>()
             .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language));
+        
+        CreateMap<Word, WordEntity>()
+            .ConvertUsing<WordToWordEntityConverter>();
         
         CreateMap<PriorityEntity, Priority>();
         

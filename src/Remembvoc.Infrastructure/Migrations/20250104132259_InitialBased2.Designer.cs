@@ -2,42 +2,42 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Remembvoc.UI;
+using Remembvoc.Infrastructure.Data;
 
 #nullable disable
 
-namespace Remembvoc.UI.Migrations
+namespace Remembvoc.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabseContextModelSnapshot : ModelSnapshot
+    [Migration("20250104132259_InitialBased2")]
+    partial class InitialBased2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-rc.1.24451.1");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Languages", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.LanguageEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ShortForm")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShortForm")
-                        .IsUnique();
-
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Priorities", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.PriorityEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("WordId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastCheck")
@@ -52,12 +52,12 @@ namespace Remembvoc.UI.Migrations
                     b.Property<double>("Points")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Id");
+                    b.HasKey("WordId");
 
                     b.ToTable("Priorities");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Words", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.WordEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,26 +78,23 @@ namespace Remembvoc.UI.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.HasIndex("Phrase")
-                        .IsUnique();
-
                     b.ToTable("Words");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Priorities", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.PriorityEntity", b =>
                 {
-                    b.HasOne("Remembvoc.UI.Models.ApplicationModels.Words", "Words")
-                        .WithOne("Priorities")
-                        .HasForeignKey("Remembvoc.UI.Models.ApplicationModels.Priorities", "Id")
+                    b.HasOne("Remembvoc.ApplicationCore.Common.Models.Entities.WordEntity", "Word")
+                        .WithOne("Priority")
+                        .HasForeignKey("Remembvoc.ApplicationCore.Common.Models.Entities.PriorityEntity", "WordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Words");
+                    b.Navigation("Word");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Words", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.WordEntity", b =>
                 {
-                    b.HasOne("Remembvoc.UI.Models.ApplicationModels.Languages", "Language")
+                    b.HasOne("Remembvoc.ApplicationCore.Common.Models.Entities.LanguageEntity", "Language")
                         .WithMany("Words")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -106,14 +103,14 @@ namespace Remembvoc.UI.Migrations
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Languages", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.LanguageEntity", b =>
                 {
                     b.Navigation("Words");
                 });
 
-            modelBuilder.Entity("Remembvoc.UI.Models.ApplicationModels.Words", b =>
+            modelBuilder.Entity("Remembvoc.ApplicationCore.Common.Models.Entities.WordEntity", b =>
                 {
-                    b.Navigation("Priorities")
+                    b.Navigation("Priority")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Remembvoc.UI.Migrations
+namespace Remembvoc.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -16,7 +17,7 @@ namespace Remembvoc.UI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ShortForm = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,6 +31,7 @@ namespace Remembvoc.UI.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Phrase = table.Column<string>(type: "TEXT", nullable: false),
+                    Translation = table.Column<string>(type: "TEXT", nullable: false),
                     LanguageId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -43,27 +45,47 @@ namespace Remembvoc.UI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Priorities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Points = table.Column<double>(type: "REAL", nullable: false),
+                    LastCheck = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    MinutesToRepeat = table.Column<int>(type: "INTEGER", nullable: false),
+                    Period = table.Column<int>(type: "INTEGER", nullable: false),
+                    WordId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Priorities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Priorities_Words_WordId",
+                        column: x => x.WordId,
+                        principalTable: "Words",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Languages_ShortForm",
-                table: "Languages",
-                column: "ShortForm",
+                name: "IX_Priorities_WordId",
+                table: "Priorities",
+                column: "WordId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Words_LanguageId",
                 table: "Words",
                 column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Words_Phrase",
-                table: "Words",
-                column: "Phrase",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Priorities");
+
             migrationBuilder.DropTable(
                 name: "Words");
 

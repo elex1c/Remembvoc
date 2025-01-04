@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Remembvoc.ApplicationCore.Common.Interfaces;
+using Remembvoc.ApplicationCore.Common.Models;
 using Remembvoc.UI.AdditionalUI.DialogHosts;
 using Remembvoc.UI.Models.ApplicationModels;
 using Models_Languages = Remembvoc.UI.Models.Languages;
@@ -10,15 +11,13 @@ namespace Remembvoc.UI.AdditionalUI.AdditionalWindows;
 public partial class AddNewWordWindow : Window
 {
     private readonly IWordService _wordService;
-    
     public List<string> Languages { get; set; }
-    public string ButtonText { get; set; }
+    public string ButtonText { get; set; } = "Add";
     private const string DIALOG_HOST_IDENTIFIER = "AddNewWordDialogHost";
     
-    public AddNewWordWindow(string btnText, IWordService wordService)
+    public AddNewWordWindow(IWordService wordService)
     {
         _wordService = wordService;
-        ButtonText = btnText;
         Languages = Enum.GetNames(typeof(Models_Languages)).ToList();
         
         InitializeComponent();

@@ -1,26 +1,28 @@
 using Remembvoc.ApplicationCore.Common.Events;
 using Remembvoc.ApplicationCore.Common.Interfaces;
+using Remembvoc.ApplicationCore.Common.Models;
+using Remembvoc.ApplicationCore.Common.Models.ViewModels;
 
 namespace Remembvoc.ApplicationCore.Common.BackgroundServices;
 
 public class WordRepeatingBackgroundService : IBackgroundService<BackgroundServiceParameters>
 {
-    private readonly IWordService _wordService;
-    private readonly IPriorityService _priorityService;
-    private readonly IPaginationService _paginationService;
+    private readonly Func<IWordService> _wordService;
+    private readonly Func<IPriorityService> _priorityService;
     private readonly INotificationIcon _notificationIcon;
+    private readonly PagesData _pagesData;
 
     private readonly CancellationTokenSource _cancellationToken = new();
-
-    public WordRepeatingBackgroundService(IWordService _wordService,
-        IPriorityService priorityService,
-        IPaginationService paginationService,
-        INotificationIcon notificationIcon)
+    
+    public WordRepeatingBackgroundService(Func<IWordService> wordService,
+        Func<IPriorityService> priorityService,
+        INotificationIcon notificationIcon,
+        PagesData pagesData)
     {
-        this._wordService = _wordService;
+        _wordService = wordService;
         _priorityService = priorityService;
-        _paginationService = paginationService;
         _notificationIcon = notificationIcon;
+        _pagesData = pagesData;
     }
 
     public void Start(BackgroundServiceParameters? parameters = null)
@@ -32,12 +34,14 @@ public class WordRepeatingBackgroundService : IBackgroundService<BackgroundServi
 
     private async void UpdateAndCheck()
     {
-        // Updates priorities (Updates the time to the next word revising)
-        await _priorityService.UpdatePrioritiesAsync();
+        var wordService = _wordService();
+        var priorityService = _priorityService();
+        
+        await priorityService.UpdatePrioritiesAsync();
 
-        if (_paginationService.TranslationPage.TotalWordsAmount != await _wordService.CountWordsForRevisingAsync())
+        if (_pagesData.TranslationPage.TotalWordsAmount != await wordService.CountWordsForRevisingAsync())
         {
-            await _wordService.GetAndSendUpdatedDataAsync();
+            await wordService.GetAndSendUpdatedDataAsync();
             
             _notificationIcon.ShowNotification(3000);
         }

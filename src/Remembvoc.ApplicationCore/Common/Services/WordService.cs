@@ -1,8 +1,12 @@
 using AutoMapper;
+using Remembvoc.ApplicationCore.Common.BackgroundServices;
 using Remembvoc.ApplicationCore.Common.Events;
 using Remembvoc.ApplicationCore.Common.Interfaces;
+using Remembvoc.ApplicationCore.Common.Models;
 using Remembvoc.ApplicationCore.Common.Models.DomainModels;
 using Remembvoc.ApplicationCore.Common.Models.Entities;
+using Remembvoc.ApplicationCore.Common.Models.ViewModels;
+using Remembvoc.ApplicationCore.Common.Validation;
 using Remembvoc.ApplicationCore.Common.Validation.Models;
 using Remembvoc.ApplicationCore.Common.Validation.ValidationResponses;
 
@@ -12,23 +16,26 @@ public class WordService : IWordService
 {
     private readonly IWordRepository _repository;
     private readonly IMapper _mapper;
-    private readonly IPaginationService _pageService;
     private readonly IWordValidator _wordValidator;
-
-    public event EventHandler<WordsListUpdatedEvent> WordListUpdated;
+    private readonly PagesData _pagesData;
+    private readonly MainViewModel _mainViewModel;
 
     public WordService(IWordRepository repository,
         IMapper mapper,
-        IPaginationService pageService,
-        IWordValidator wordValidator)
+        IWordValidator wordValidator,
+        PagesData pagesData,
+        MainViewModel mainViewModel)
     {
         _repository = repository;
         _mapper = mapper;
-        _pageService = pageService;
         _wordValidator = wordValidator;
+        _pagesData = pagesData;
+        _mainViewModel = mainViewModel;
     }
 
-    public async Task<WordValidationResponse> AddWordAsync(string word, string language, string translation)
+    public async Task<WordValidationResponse> AddWordAsync(string word,
+        string language,
+        string translation)
     {
         var validationResponse = await _wordValidator.Validate(
             new WordInputModel
@@ -37,9 +44,11 @@ public class WordService : IWordService
                 Language = language,
                 Translation = translation
             });
+        bool isWordInDictionary = await GetWordByNameAsync(word) != null;
         
         if (!validationResponse.IsValid) return validationResponse;
-
+        if (isWordInDictionary) return new WordValidationResponse { IsValid = false, ErrorMessage = Errors.WORD_EXISTS };
+        
         var wordEntity = _mapper.Map<WordEntity>(validationResponse.Word);
         await _repository.AddWordAsync(wordEntity);
 
@@ -94,14 +103,14 @@ public class WordService : IWordService
 
     public async Task GetAndSendUpdatedDataAsync()
     {
-        int currentMainPage = _pageService.MainPage.CurrentPageNumber;
-        int elementsPerMainPAge = _pageService.MainPage.ElementsPerPage;
-        int currentTranslationPage = _pageService.TranslationPage.CurrentPageNumber;
-        int elementsPerTranslationPage = _pageService.TranslationPage.ElementsPerPage;
+        var args = new WordsListUpdatedEvent(
+            await GetWordsForWordListAsync(_pagesData.MainPage.ElementsPerPage, _pagesData.MainPage.CurrentPageNumber),
+            await GetWordsForRevisingAsync(_pagesData.TranslationPage.ElementsPerPage,
+                _pagesData.TranslationPage.CurrentPageNumber),
+            await CountWordsForWordList(),
+            await CountWordsForRevisingAsync());
         
-        OnWordListUpdated(new WordsListUpdatedEvent(
-            await GetWordsForWordListAsync(elementsPerMainPAge, currentMainPage), 
-            await GetWordsForRevisingAsync(elementsPerTranslationPage, currentTranslationPage)));
+        _mainViewModel.OnPagesUpdated(args);
     }
     
     public async Task<int> CountWordsForRevisingAsync()
@@ -115,10 +124,5 @@ public class WordService : IWordService
         int wordsForRevising = await CountWordsForRevisingAsync();
         var words = await _repository.GetAllAsync();
         return words.Count - wordsForRevising;
-    }
-
-    protected virtual void OnWordListUpdated(WordsListUpdatedEvent e)
-    {
-        WordListUpdated?.Invoke(this, e);
     }
 }

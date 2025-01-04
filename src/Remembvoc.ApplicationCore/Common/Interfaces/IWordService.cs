@@ -1,4 +1,5 @@
 using Remembvoc.ApplicationCore.Common.Events;
+using Remembvoc.ApplicationCore.Common.Models;
 using Remembvoc.ApplicationCore.Common.Models.DomainModels;
 using Remembvoc.ApplicationCore.Common.Validation.ValidationResponses;
 
@@ -13,5 +14,4 @@ public interface IWordService
     public Task<Word?> GetWordByNameAsync(string word);
     public Task<int> CountWordsForRevisingAsync();
     public Task<int> CountWordsForWordList();
-    public event EventHandler<WordsListUpdatedEvent> WordListUpdated;
 }

@@ -21,7 +21,7 @@ public class PriorityRepository : IPriorityRepository
 
     public async Task<PriorityEntity?> GetPriorityByIdAsync(int id)
     {
-        return await _context.Priorities.FirstOrDefaultAsync(p => p.Id == id);
+        return await _context.Priorities.FirstOrDefaultAsync(p => p.WordId == id);
     }
 
     public async Task UpdatePrioritiesAsync(IEnumerable<PriorityEntity> priorities)
