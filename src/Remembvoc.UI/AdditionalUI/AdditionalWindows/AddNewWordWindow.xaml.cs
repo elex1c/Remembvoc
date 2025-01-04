@@ -11,13 +11,15 @@ namespace Remembvoc.UI.AdditionalUI.AdditionalWindows;
 public partial class AddNewWordWindow : Window
 {
     private readonly IWordService _wordService;
+    private readonly IPriorityService _priorityService;
     public List<string> Languages { get; set; }
     public string ButtonText { get; set; } = "Add";
     private const string DIALOG_HOST_IDENTIFIER = "AddNewWordDialogHost";
     
-    public AddNewWordWindow(IWordService wordService)
+    public AddNewWordWindow(IWordService wordService, IPriorityService priorityService)
     {
         _wordService = wordService;
+        _priorityService = priorityService;
         Languages = Enum.GetNames(typeof(Models_Languages)).ToList();
         
         InitializeComponent();
@@ -28,12 +30,13 @@ public partial class AddNewWordWindow : Window
     private async void Button_OnClick(object sender, RoutedEventArgs e)
     {
         var response = await _wordService.AddWordAsync(tbUserInput.Text, cbLanguage.Text, tbTranslation.Text);
-
         if (!response.IsValid)
         {
             ShowError(response.ErrorMessage!);
             return;
         }
+        await _priorityService.AddPriorityAsync(response.Word!);
+        await _wordService.GetAndSendUpdatedDataAsync();
         
         Close();
     }

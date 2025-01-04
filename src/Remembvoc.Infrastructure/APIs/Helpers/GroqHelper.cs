@@ -10,9 +10,9 @@ public class GroqHelper
     
     public readonly string API_KEY;
     
-    public GroqHelper(string apiKey)
+    public GroqHelper()
     {
-        API_KEY = apiKey;
+        
     }
     
     public string? GetSentenceFromStringResponse(string content)

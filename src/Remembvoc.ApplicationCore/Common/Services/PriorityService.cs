@@ -2,6 +2,7 @@ using AutoMapper;
 using Remembvoc.ApplicationCore.Common.Interfaces;
 using Remembvoc.ApplicationCore.Common.Models.DomainModels;
 using Remembvoc.ApplicationCore.Common.Models.Entities;
+using Remembvoc.ApplicationCore.Common.Utilities;
 
 namespace Remembvoc.ApplicationCore.Common.Services;
 
@@ -14,6 +15,19 @@ public class PriorityService : IPriorityService
     {
         _repository = repository;
         _mapper = mapper;
+    }
+
+
+    public async Task AddPriorityAsync(Word word)
+    {
+        await _repository.AddAsync(new PriorityEntity
+        {
+            WordId = word.Id,
+            Period = 1,
+            MinutesToRepeat = Periods.GetPeriod(0),
+            Points = 1.00,
+            LastCheck = DateTime.Now
+        });
     }
 
     public async Task UpdatePrioritiesAsync()

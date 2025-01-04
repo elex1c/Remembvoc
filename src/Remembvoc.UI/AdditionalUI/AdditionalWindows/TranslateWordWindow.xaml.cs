@@ -12,24 +12,25 @@ namespace Remembvoc.UI.AdditionalUI.AdditionalWindows;
 public partial class TranslateWordWindow : Window, IDisposable
 {
     private readonly ITranslationService<WordTranslationResponse> _translationService;
-    private readonly IWordService _wordService;
     private Word _word { get; set; }
     private const string DIALOG_HOST_IDENTIFIER = "TranslateWordDialogHost";
 
-    public TranslateWordWindow(ITranslationService<WordTranslationResponse> translationService, 
-        IWordService wordService,
-        string word)
+    public TranslateWordWindow(ITranslationService<WordTranslationResponse> translationService)
     {
         _translationService = translationService;
-        _wordService = wordService;
 
-        _word = new Word { Phrase = word };
+        _word = new Word();
         
         InitializeComponent();
 
         Loaded += GenerateTextAsync;
     }
 
+    public void AddPhrase(string word)
+    {
+        _word.Phrase = word;
+    }
+    
     private async void GenerateTextAsync(object sender, RoutedEventArgs e)
     {
         var generatorResponse = await _translationService.GenerateSentenceAsync(_word.Phrase);

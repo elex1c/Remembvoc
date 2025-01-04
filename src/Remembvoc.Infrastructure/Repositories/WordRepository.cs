@@ -19,10 +19,11 @@ public class WordRepository : IWordRepository
         return await _context.Words.ToListAsync();
     }
 
-    public async Task AddWordAsync(WordEntity wordEntity)
+    public async Task<WordEntity> AddWordAsync(WordEntity wordEntity)
     {
-        await _context.Words.AddAsync(wordEntity);
+        var entity = await _context.Words.AddAsync(wordEntity);
         await _context.SaveChangesAsync();
+        return entity.Entity;
     }
 
     public async Task DeleteWordAsync(WordEntity wordEntity)
@@ -33,7 +34,7 @@ public class WordRepository : IWordRepository
 
     public async Task<List<WordEntity>> GetAllWithPrioritiesAsync()
     {
-        return await _context.Words.Include(p => p.Priority)
+        return await _context.Words.Include(w => w.Priority)
             .ToListAsync();
     }
     

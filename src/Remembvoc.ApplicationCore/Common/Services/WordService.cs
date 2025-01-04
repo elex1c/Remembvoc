@@ -50,9 +50,9 @@ public class WordService : IWordService
         if (isWordInDictionary) return new WordValidationResponse { IsValid = false, ErrorMessage = Errors.WORD_EXISTS };
         
         var wordEntity = _mapper.Map<WordEntity>(validationResponse.Word);
-        await _repository.AddWordAsync(wordEntity);
-
-        await GetAndSendUpdatedDataAsync();
+        wordEntity = await _repository.AddWordAsync(wordEntity);
+        
+        validationResponse.Word!.Id = wordEntity.Id;
         
         return validationResponse;
     }

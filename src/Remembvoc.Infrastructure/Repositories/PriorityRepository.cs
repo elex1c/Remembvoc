@@ -13,6 +13,12 @@ public class PriorityRepository : IPriorityRepository
     {
         _context = context;
     }
+
+    public async Task AddAsync(PriorityEntity priority)
+    {
+        await _context.AddAsync(priority);
+        await _context.SaveChangesAsync();
+    }
     
     public async Task<List<PriorityEntity>> GetAllAsync()
     {

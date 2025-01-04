@@ -1,8 +1,11 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Remembvoc.ApplicationCore.Common.Enums;
 using Remembvoc.ApplicationCore.Common.Interfaces;
 using Remembvoc.ApplicationCore.Common.Models.ViewModels;
+using Remembvoc.ApplicationCore.Common.Services;
+using Remembvoc.ApplicationCore.Common.Validation.ValidationResponses;
 using Remembvoc.UI.AdditionalUI.AdditionalWindows;
 using Page = Remembvoc.ApplicationCore.Common.Models.Page;
 
@@ -13,18 +16,23 @@ namespace Remembvoc.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public TranslateWordWindow TranslateWordWindow { get; }
     private readonly Func<IWordService> _wordService;
     private readonly IPaginationService _paginationService;
     private readonly AddNewWordWindow _addNewWordWindow;
+    private readonly TranslateWordWindow _translateWordWindow;
 
     public MainWindow(Func<IWordService> wordService,
         IPaginationService paginationService,
         AddNewWordWindow addNewWordWindow,
-        MainViewModel mainViewModel)
+        MainViewModel mainViewModel,
+        TranslateWordWindow translateWordWindow)
     {
+        TranslateWordWindow = translateWordWindow;
         _wordService = wordService;
         _paginationService = paginationService;
         _addNewWordWindow = addNewWordWindow;
+        _translateWordWindow = translateWordWindow;
 
         DataContext = mainViewModel;
         
@@ -70,7 +78,8 @@ public partial class MainWindow : Window
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
     {
-       
+        _translateWordWindow.AddPhrase(((Button)sender).Tag.ToString()!);
+        _translateWordWindow.ShowDialog();
     }
 
     private void BtnPlusPage_OnClick(object sender, RoutedEventArgs e)

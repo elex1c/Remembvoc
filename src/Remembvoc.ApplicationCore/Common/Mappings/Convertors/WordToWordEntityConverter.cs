@@ -4,7 +4,7 @@ using Remembvoc.ApplicationCore.Common.Models.Entities;
 
 namespace Remembvoc.ApplicationCore.Common.Mappings.Convertors;
 
-public class WordToWordEntityConverter : ITypeConverter<Word, WordEntity>
+public class WordToWordEntityConverter : ITypeConverter<Word, WordEntity>, AutoMapper.ITypeConverter<Word, WordEntity>
 {
     public WordEntity Convert(Word source, WordEntity destination, ResolutionContext context)
     {

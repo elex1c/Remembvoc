@@ -37,7 +37,7 @@ public partial class App : Application
         services.AddTransient<IPriorityService, PriorityService>();
         services.AddScoped<ITranslationService<WordTranslationResponse>, TranslationService>();
         services.AddTransient<IWordValidator, WordValidator>();
-        services.AddAutoMapper(config => config.AddProfile<MappingProfile>());
+        services.AddAutoMapper(typeof(MappingProfile).Assembly);
         services.AddSingleton<INotificationIcon, NotifyIconBackground>();
         services.AddSingleton<IPaginationService, PaginationService>();
         services.AddSingleton<IBackgroundService<BackgroundServiceParameters>, WordRepeatingBackgroundService>();
@@ -46,6 +46,7 @@ public partial class App : Application
         services.AddSingleton<PagesData>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AddNewWordWindow>();
+        services.AddSingleton<TranslateWordWindow>();
     }
 
     protected override async void OnStartup(StartupEventArgs e)
