@@ -4,7 +4,7 @@ namespace Remembvoc.ApplicationCore.Common.Models.DomainModels;
 
 public class Priority
 {
-    public int Id { get; set; }
+    public int WordId { get; set; }
     public double Points { get; set; }
     public DateTime LastCheck { get; set; }
     public int MinutesToRepeat { get; set; }

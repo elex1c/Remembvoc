@@ -16,13 +16,18 @@ public class WordRepository : IWordRepository
     
     public async Task<List<WordEntity>> GetAllAsync()
     {
-        return await _context.Words.ToListAsync();
+        return await _context.Words.
+            AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<WordEntity> AddWordAsync(WordEntity wordEntity)
     {
         var entity = await _context.Words.AddAsync(wordEntity);
         await _context.SaveChangesAsync();
+        
+        _context.Entry(entity.Entity).State = EntityState.Detached;
+        
         return entity.Entity;
     }
 
@@ -34,12 +39,14 @@ public class WordRepository : IWordRepository
 
     public async Task<List<WordEntity>> GetAllWithPrioritiesAsync()
     {
-        return await _context.Words.Include(w => w.Priority)
+        return await _context.Words.AsNoTracking()
+            .Include(w => w.Priority)
             .ToListAsync();
     }
     
     public async Task<WordEntity?> GetWordByNameAsync(string word)
     {
-        return await _context.Words.FirstOrDefaultAsync(w => w.Phrase == word); 
+        return await _context.Words.AsNoTracking()
+            .FirstOrDefaultAsync(w => w.Phrase == word); 
     }
 }

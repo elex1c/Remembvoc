@@ -38,6 +38,9 @@ public class PriorityService : IPriorityService
             .ToList();
         
         foreach (var priority in priorities) priority.CountCheckTime();
+        
+        var prioritiesEntities = priorities.Select(_mapper.Map<PriorityEntity>);
+        await _repository.UpdatePrioritiesAsync(prioritiesEntities);
     }
     
     public async Task UpdateSinglePriorityByIdAsync(int priorityId, bool isTranslatedSuccessfully)

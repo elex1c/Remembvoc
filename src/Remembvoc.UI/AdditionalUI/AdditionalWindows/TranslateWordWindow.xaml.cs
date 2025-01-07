@@ -12,12 +12,16 @@ namespace Remembvoc.UI.AdditionalUI.AdditionalWindows;
 public partial class TranslateWordWindow : Window, IDisposable
 {
     private readonly ITranslationService<WordTranslationResponse> _translationService;
+    private readonly Func<IWordService> _wordService;
     private Word _word { get; set; }
     private const string DIALOG_HOST_IDENTIFIER = "TranslateWordDialogHost";
 
-    public TranslateWordWindow(ITranslationService<WordTranslationResponse> translationService)
+    private bool _isClosed { get; set; }
+    
+    public TranslateWordWindow(ITranslationService<WordTranslationResponse> translationService, Func<IWordService> wordService)
     {
         _translationService = translationService;
+        _wordService = wordService;
 
         _word = new Word();
         
@@ -30,6 +34,15 @@ public partial class TranslateWordWindow : Window, IDisposable
     {
         _word.Phrase = word;
     }
+
+    public void LoadNewWindow()
+    {
+        tbGeneratedSentence.Text = "Generating..";
+        
+        _word = new Word();
+
+        GenerateTextAsync(this, new RoutedEventArgs());
+    }
     
     private async void GenerateTextAsync(object sender, RoutedEventArgs e)
     {
@@ -38,8 +51,8 @@ public partial class TranslateWordWindow : Window, IDisposable
         if (!generatorResponse.IsSuccessRequest)
         {
             ShowError(generatorResponse.ErrorMessage);
-            
-            Close();
+
+            CloseWindow();
             
             return;
         }
@@ -71,21 +84,25 @@ public partial class TranslateWordWindow : Window, IDisposable
     private async void BtnConfirmButton_OnClick(object sender, RoutedEventArgs e)
     {
         var translationResponse = await _translationService.CheckTranslationAsync(tbUserInput.Text);
-
+        
+        var wordService = _wordService();
+        
         switch (translationResponse.State)
         {
-            case TranslationStates.Translated:
-                await ShowResult(true, translationResponse.Message);
-                break;
             case TranslationStates.NotTranslated:
                 await ShowResult(false, translationResponse.Message);
+                await wordService.GetAndSendUpdatedDataAsync();
+                break;
+            case TranslationStates.Translated:
+                await ShowResult(true, translationResponse.Message);
+                await wordService.GetAndSendUpdatedDataAsync();
                 break;
             case TranslationStates.IncorrectInput:
                 await ShowResult(false, translationResponse.Message);
                 return;
         }
         
-        Close();
+        CloseWindow();
     }
 
     private async void ShowError(string errorText)
@@ -108,14 +125,23 @@ public partial class TranslateWordWindow : Window, IDisposable
     
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
-        Close();
+        CloseWindow();
     }
 
+    private void CloseWindow()
+    {
+        _isClosed = true;
+        
+        Hide();
+    }
+    
     private void TranslateWord_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
     }
 
+    public bool IsClosed => _isClosed;
+    
     public void Dispose()
     {
         Loaded -= GenerateTextAsync;

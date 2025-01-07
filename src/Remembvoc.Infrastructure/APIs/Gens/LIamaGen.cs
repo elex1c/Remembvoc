@@ -10,7 +10,9 @@ namespace Remembvoc.Infrastructure.APIs.Gens;
 public class LIamaGen : ISentenceGen
 {
     private readonly GroqHelper _helper;
-    private string API_KEY => _helper.API_KEY;
+    private string API_KEY => _helper.ApiKey;
+    private string ENDPOINT => _helper.Endpoint;
+    private string MODEL => _helper.Model;
     
     public LIamaGen(GroqHelper helper)
     {
@@ -27,7 +29,7 @@ public class LIamaGen : ISentenceGen
             Request request = new()
             {
                 messages = [new Message { content = $"Create me a sentence with word \"{word}\" in language \"{language}\". In response put generated sentence between pipe characters. If you have some problems with generating, please, just sent 'ERROR'.", role = "user" }],
-                model = API_KEY,
+                model = MODEL,
                 max_tokens = 1024,
                 temperature = 1,
                 top_p = 1,
@@ -38,7 +40,7 @@ public class LIamaGen : ISentenceGen
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync(GroqHelper.ENDPOINT, content);
+            var response = await client.PostAsync(ENDPOINT, content);
             
             if (response.IsSuccessStatusCode)
             {

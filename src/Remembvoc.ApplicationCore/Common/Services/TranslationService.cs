@@ -14,7 +14,9 @@ public class TranslationService : ITranslationService<WordTranslationResponse>
 
     private Word? Word { get; set; }
     
-    public TranslationService(ISentenceGenService genService, IWordService wordService, IPriorityService priorityService)
+    public TranslationService(ISentenceGenService genService,
+        IWordService wordService,
+        IPriorityService priorityService)
     {
         _genService = genService;
         _wordService = wordService;

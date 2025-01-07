@@ -1,10 +1,8 @@
 using System.Windows;
 using System.Windows.Input;
 using Remembvoc.ApplicationCore.Common.Interfaces;
-using Remembvoc.ApplicationCore.Common.Models;
 using Remembvoc.UI.AdditionalUI.DialogHosts;
-using Remembvoc.UI.Models.ApplicationModels;
-using Models_Languages = Remembvoc.UI.Models.Languages;
+using Models_Languages = Remembvoc.ApplicationCore.Common.Enums.Languages;
 
 namespace Remembvoc.UI.AdditionalUI.AdditionalWindows;
 
@@ -37,8 +35,8 @@ public partial class AddNewWordWindow : Window
         }
         await _priorityService.AddPriorityAsync(response.Word!);
         await _wordService.GetAndSendUpdatedDataAsync();
-        
-        Close();
+
+        CloseWindow();
     }
 
     private async void ShowError(string errorText)
@@ -48,9 +46,18 @@ public partial class AddNewWordWindow : Window
         await MaterialDesignThemes.Wpf.DialogHost.Show(errorDialog, DIALOG_HOST_IDENTIFIER);
     }
 
+    private void CloseWindow()
+    {
+        tbUserInput.Text = string.Empty;
+        cbLanguage.Text = string.Empty;
+        tbTranslation.Text = string.Empty;
+        
+        Hide();
+    }
+    
     private void BtnClose_OnClick(object sender, RoutedEventArgs e)
     {
-        Close();
+        CloseWindow();
     }
 
     private void OneBoxOneButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

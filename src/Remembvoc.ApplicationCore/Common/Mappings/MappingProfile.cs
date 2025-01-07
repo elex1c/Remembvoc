@@ -14,7 +14,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom<LanguageNameResolver>());
         
         CreateMap<WordEntity, Word>()
-            .ForMember(dest => dest.Language, opt => opt.MapFrom(src => src.Language));
+            .ConvertUsing<WordEntityToWordConverter>();
         
         CreateMap<Word, WordEntity>()
             .ConvertUsing<WordToWordEntityConverter>();

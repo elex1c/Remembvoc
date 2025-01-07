@@ -1,18 +1,20 @@
 using System.Text.Json;
+using Microsoft.Extensions.Options;
+using Remembvoc.ApplicationCore.Common.Settings;
 using Remembvoc.Infrastructure.APIs.Models.GroqModels;
 
 namespace Remembvoc.Infrastructure.APIs.Helpers;
 
 public class GroqHelper
 {
-    public const string ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-    public const string MODEL = "llama3-8b-8192";
+    private readonly ApiSettings _options;
+    public string ApiKey => _options.LIamaApiKey;
+    public string Endpoint => _options.Endpoint;
+    public string Model => _options.Model;
     
-    public readonly string API_KEY;
-    
-    public GroqHelper()
+    public GroqHelper(IOptions<ApiSettings> options)
     {
-        
+        _options = options.Value;
     }
     
     public string? GetSentenceFromStringResponse(string content)
@@ -31,8 +33,8 @@ public class GroqHelper
             catch (Exception) { continue; }
         }
 
-        sentence = sentence.Split('|')[1]
-            .Trim();
+        if (sentence.Split('|').Length > 1)
+            sentence = sentence.Split('|')[1].Trim();
         
         return sentence == string.Empty ? null : sentence;
     }

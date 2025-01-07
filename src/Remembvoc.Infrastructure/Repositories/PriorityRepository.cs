@@ -22,12 +22,15 @@ public class PriorityRepository : IPriorityRepository
     
     public async Task<List<PriorityEntity>> GetAllAsync()
     {
-        return await _context.Priorities.ToListAsync();
+        return await _context.Priorities
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<PriorityEntity?> GetPriorityByIdAsync(int id)
     {
-        return await _context.Priorities.FirstOrDefaultAsync(p => p.WordId == id);
+        return await _context.Priorities.AsNoTracking()
+            .FirstOrDefaultAsync(p => p.WordId == id);
     }
 
     public async Task UpdatePrioritiesAsync(IEnumerable<PriorityEntity> priorities)

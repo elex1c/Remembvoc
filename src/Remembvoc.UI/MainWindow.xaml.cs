@@ -66,7 +66,7 @@ public partial class MainWindow : Window
     private async void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
     {
         var wordService = _wordService();
-        var button = sender as System.Windows.Controls.Button;
+        var button = sender as Button;
         
         await wordService.DeleteWordAsync(button!.Tag.ToString()!);
     }
@@ -78,6 +78,7 @@ public partial class MainWindow : Window
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
     {
+        if (_translateWordWindow.IsClosed) _translateWordWindow.LoadNewWindow();
         _translateWordWindow.AddPhrase(((Button)sender).Tag.ToString()!);
         _translateWordWindow.ShowDialog();
     }

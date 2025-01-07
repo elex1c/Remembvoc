@@ -98,7 +98,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Word" Binding="{Binding Phrase}"
                                                     Width="*" FontSize="14"/>
-                                <DataGridTextColumn Header="Language" Binding="{Binding Language}"
+                                <DataGridTextColumn Header="Language" Binding="{Binding Language.Name}"
                                                     Width="*" FontSize="14"/>
                                 <DataGridTextColumn Header="Translation" Binding="{Binding Translation}"
                                                     Width="*" FontSize="14"/>

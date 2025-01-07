@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Remembvoc.ApplicationCore.Common.BackgroundServices;
@@ -7,10 +9,12 @@ using Remembvoc.ApplicationCore.Common.Mappings;
 using Remembvoc.ApplicationCore.Common.Models;
 using Remembvoc.ApplicationCore.Common.Models.ViewModels;
 using Remembvoc.ApplicationCore.Common.Services;
+using Remembvoc.ApplicationCore.Common.Settings;
 using Remembvoc.ApplicationCore.Common.Validation.UserInputValidation.Validatiors;
 using Remembvoc.ApplicationCore.Common.Validation.ValidationResponses;
 using Remembvoc.Infrastructure;
 using Remembvoc.UI.AdditionalUI.AdditionalWindows;
+using Remembvoc.UI.Models;
 
 namespace Remembvoc.UI;
 
@@ -30,6 +34,13 @@ public partial class App : Application
 
     private void ConfigureService(HostBuilderContext context, IServiceCollection services)
     {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+        
+        services.Configure<ApiSettings>(configuration.GetSection(nameof(ApiSettings)));
+        
         services.AddInfrastructure();
         services.AddTransient<Func<IWordService>>(sp => sp.GetRequiredService<IWordService>);
         services.AddTransient<Func<IPriorityService>>(sp => sp.GetRequiredService<IPriorityService>);
@@ -46,6 +57,7 @@ public partial class App : Application
         services.AddSingleton<PagesData>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<AddNewWordWindow>();
+        services.AddSingleton<IDispatcher, WpfDispatcher>();
         services.AddSingleton<TranslateWordWindow>();
     }
 
