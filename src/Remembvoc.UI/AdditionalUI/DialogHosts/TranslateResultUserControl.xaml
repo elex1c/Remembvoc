@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:matDes="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" Background="#1f2021"
-             d:DesignHeight="150" d:DesignWidth="200"
-             Height="150" Width="200">
+             d:DesignHeight="200" d:DesignWidth="225"
+             Height="200" Width="225">
     <UserControl.Resources>
         <SolidColorBrush x:Key="ResultTextColour" Color="#bbbfbc" />
         <SolidColorBrush x:Key="ButtonColor" Color="#7f8182" />

@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Remembvoc.UI.AdditionalUI.DialogHosts"
              mc:Ignorable="d" Background="#1f2021"
-             d:DesignHeight="100" d:DesignWidth="200"
-             Height="125" Width="250">
+             d:DesignHeight="200" d:DesignWidth="250"
+             Height="200" Width="250">
     <UserControl.Resources>
         <SolidColorBrush x:Key="ErrorTextColor" Color="#bbbfbc" />
         <SolidColorBrush x:Key="ButtonColor" Color="#7f8182" />
@@ -26,7 +26,7 @@
                 <Button Width="40" Height="20"
                 HorizontalAlignment="Right" Content="OK"
                 FontSize="9" FontWeight="Bold"
-                Padding="0" Margin="0 20 0 0"
+                Padding="0" Margin="0 50 0 0"
                 Background="Transparent" BorderBrush="{StaticResource ButtonColor}"
                 Foreground="{StaticResource ButtonTextColor}" x:Name="BtnOk"
                 Click="BtnOk_Click"/>
