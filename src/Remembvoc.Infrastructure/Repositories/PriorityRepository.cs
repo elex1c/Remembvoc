@@ -42,8 +42,15 @@ public class PriorityRepository : IPriorityRepository
 
     public async Task UpdateSinglePriorityAsync(PriorityEntity priority)
     {
+        var existingEntity = _context.Priorities.Local
+            .FirstOrDefault(p => p.WordId == priority.WordId);
+    
+        if (existingEntity != null)
+        {
+            _context.Entry(existingEntity).State = EntityState.Detached;
+        }
+
         _context.Priorities.Update(priority);
-        
         await _context.SaveChangesAsync();
     }
 }

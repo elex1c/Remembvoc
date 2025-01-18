@@ -32,14 +32,15 @@ public partial class TranslateWordWindow : Window, IDisposable
 
     public void AddPhrase(string word)
     {
-        _word.Phrase = word;
+        _word = new Word
+        {
+            Phrase = word
+        };
     }
 
     public void LoadNewWindow()
     {
         tbGeneratedSentence.Text = "Generating..";
-        
-        _word = new Word();
 
         GenerateTextAsync(this, new RoutedEventArgs());
     }

@@ -48,7 +48,7 @@ public class LIamaGen : ISentenceGen
 
                 string? sentence = _helper.GetSentenceFromStringResponse(resp);
 
-                return sentence;
+                return sentence == "ERROR" ? "Word does not belong to this language" : sentence;
             }
 
             return null;
