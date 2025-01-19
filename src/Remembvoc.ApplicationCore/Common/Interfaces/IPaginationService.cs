@@ -9,4 +9,5 @@ public interface IPaginationService
     public Page NextPage();
     public Page PreviousPage();
     public void LoadPageButtons();
+    public Page GetCurrentPage();
 }

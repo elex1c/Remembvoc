@@ -78,9 +78,5 @@ public class PaginationService : IPaginationService
         }
     }
 
-    private async void WordListUpdated(WordsListUpdatedEvent e)
-    {
-        _pagesData.MainPage.TotalWordsAmount = e.VocabularyWordListTotalCount;
-        _pagesData.TranslationPage.TotalWordsAmount = e.TranslationWordListTotalCount;
-    }
+    public Page GetCurrentPage() => _pagesData.CurrentPage;
 }

@@ -46,6 +46,8 @@ public partial class MainWindow : Window
         var wordService = _wordService();
         
         await wordService.GetAndSendUpdatedDataAsync();
+
+        UpdateButtonsGrid(_paginationService.GetCurrentPage());
     }
     
     private void MWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
