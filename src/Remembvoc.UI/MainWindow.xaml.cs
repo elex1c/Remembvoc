@@ -41,12 +41,8 @@ public partial class MainWindow : Window
         Loaded += StartUpConfigure;
     }
     
-    private async void StartUpConfigure(object sender, RoutedEventArgs e)
+    private void StartUpConfigure(object sender, RoutedEventArgs e)
     {
-        var wordService = _wordService();
-        
-        await wordService.GetAndSendUpdatedDataAsync();
-
         UpdateButtonsGrid(_paginationService.GetCurrentPage());
     }
     
@@ -76,6 +72,7 @@ public partial class MainWindow : Window
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
     {
         _addNewWordWindow.ShowDialog();
+        UpdateButtonsGrid(_paginationService.GetCurrentPage());
     }
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
@@ -97,6 +94,8 @@ public partial class MainWindow : Window
         UpdateButtonsGrid(page);
     }
 
+    // TODO: Change OnPreviewMouseDown events, because they do not work in the way they should
+    
     private void TabItemVocabulary_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         => SwitchPage(Pages.Vocabulary);
 
@@ -109,8 +108,13 @@ public partial class MainWindow : Window
         UpdateButtonsGrid(currentPage);
     }
     
-    private void UpdateButtonsGrid(Page page)
+    private async void UpdateButtonsGrid(Page page)
     {
+        var wordService = _wordService();
+        await wordService.GetAndSendUpdatedDataAsync();
+        
+        _paginationService.LoadPageButtons();
+        
         gridPageButtons.Visibility = page.IsVisible ? Visibility.Visible : Visibility.Collapsed;
         btnMinusPage.IsEnabled = page.IsMinusPageButtonEnabled;
         btnPlusPage.IsEnabled = page.IsPlusPageButtonEnabled;

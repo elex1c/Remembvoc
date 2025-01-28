@@ -109,6 +109,9 @@ public class WordService : IWordService
                 _pagesData.TranslationPage.CurrentPageNumber),
             await CountWordsForWordList(),
             await CountWordsForRevisingAsync());
+
+        _pagesData.MainPage.TotalWordsAmount = args.VocabularyWordListTotalCount;
+        _pagesData.TranslationPage.TotalWordsAmount = args.TranslationWordListTotalCount;
         
         _mainViewModel.OnPagesUpdated(args);
     }

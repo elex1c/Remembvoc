@@ -1,6 +1,4 @@
-using Remembvoc.ApplicationCore.Common.BackgroundServices;
 using Remembvoc.ApplicationCore.Common.Enums;
-using Remembvoc.ApplicationCore.Common.Events;
 using Remembvoc.ApplicationCore.Common.Interfaces;
 using Remembvoc.ApplicationCore.Common.Models;
 
@@ -60,11 +58,13 @@ public class PaginationService : IPaginationService
             {
                 _pagesData.CurrentPage.IsPlusPageButtonEnabled = true;
                 _pagesData.CurrentPage.IsMinusPageButtonEnabled = false;
+                _pagesData.CurrentPage.IsVisible = true;
             }
             else if (_pagesData.CurrentPage.CurrentPageNumber == _pagesData.CurrentPage.LastPage)
             {
                 _pagesData.CurrentPage.IsPlusPageButtonEnabled = false;
                 _pagesData.CurrentPage.IsMinusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsVisible = true;
             }
             else if (_pagesData.CurrentPage.CurrentPageNumber > _pagesData.CurrentPage.LastPage)
             {
@@ -74,6 +74,7 @@ public class PaginationService : IPaginationService
             {
                 _pagesData.CurrentPage.IsPlusPageButtonEnabled = true;
                 _pagesData.CurrentPage.IsMinusPageButtonEnabled = true;
+                _pagesData.CurrentPage.IsVisible = true;
             }
         }
     }

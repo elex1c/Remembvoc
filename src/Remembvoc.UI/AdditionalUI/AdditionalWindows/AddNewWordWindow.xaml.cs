@@ -34,7 +34,6 @@ public partial class AddNewWordWindow : Window
             return;
         }
         await _priorityService.AddPriorityAsync(response.Word!);
-        await _wordService.GetAndSendUpdatedDataAsync();
 
         CloseWindow();
     }
