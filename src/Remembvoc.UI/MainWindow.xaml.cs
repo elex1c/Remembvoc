@@ -61,8 +61,6 @@ public partial class MainWindow : Window
         WindowState = WindowState.Minimized;
     }
 
-    // TODO: Fix - when user deletes last word on number it does not return him on previous page
-    
     private async void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
     {
         var wordService = _wordService();
@@ -107,7 +105,10 @@ public partial class MainWindow : Window
     
     private async void UpdateButtonsGrid(Page page)
     {
+        if (page.CurrentPageNumber > page.LastPage) _paginationService.LoadPageButtons();
+        
         var wordService = _wordService();
+        
         await wordService.GetAndSendUpdatedDataAsync();
         
         _paginationService.LoadPageButtons();

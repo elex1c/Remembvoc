@@ -77,6 +77,7 @@ public class PaginationService : IPaginationService
             else if (_pagesData.CurrentPage.CurrentPageNumber > _pagesData.CurrentPage.LastPage)
             {
                 _pagesData.CurrentPage.CurrentPageNumber -= 1;
+                LoadPageButtons();
             }
             else
             {
