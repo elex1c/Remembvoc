@@ -20,13 +20,21 @@ public class PaginationService : IPaginationService
         _pagesData.CurrentPage = _pagesData.MainPage;
     }
 
+    public Pages CurrentPageType { get; set; } = Pages.Vocabulary;
+
     public Page SwitchPage(Pages pages)
     {
-        _pagesData.CurrentPage = pages switch
+        switch (pages)
         {
-            Pages.Vocabulary => _pagesData.MainPage,
-            Pages.Translate => _pagesData.TranslationPage
-        };
+            case Pages.Vocabulary:
+                _pagesData.CurrentPage = _pagesData.MainPage;
+                break;
+            case Pages.Translate:
+                _pagesData.CurrentPage = _pagesData.TranslationPage;
+                break;
+        }
+        
+        CurrentPageType = pages;
         
         return _pagesData.CurrentPage;
     }

@@ -61,12 +61,15 @@ public partial class MainWindow : Window
         WindowState = WindowState.Minimized;
     }
 
+    // TODO: Fix - when user deletes last word on number it does not return him on previous page
+    
     private async void BtnDelWord_OnClick(object sender, RoutedEventArgs e)
     {
         var wordService = _wordService();
         var button = sender as Button;
         
         await wordService.DeleteWordAsync(button!.Tag.ToString()!);
+        UpdateButtonsGrid(_paginationService.GetCurrentPage());
     }
 
     private void BtnAddNewWord_OnClick(object sender, RoutedEventArgs e)
@@ -94,16 +97,10 @@ public partial class MainWindow : Window
         UpdateButtonsGrid(page);
     }
 
-    // TODO: Change OnPreviewMouseDown events, because they do not work in the way they should
-    
-    private void TabItemVocabulary_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        => SwitchPage(Pages.Vocabulary);
-
-    private void TabItemTranslate_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) 
-        => SwitchPage(Pages.Translate);
-
     private void SwitchPage(Pages page)
     {
+        if (_paginationService.CurrentPageType == page) return;
+        
         var currentPage = _paginationService.SwitchPage(page);
         UpdateButtonsGrid(currentPage);
     }
@@ -119,5 +116,18 @@ public partial class MainWindow : Window
         btnMinusPage.IsEnabled = page.IsMinusPageButtonEnabled;
         btnPlusPage.IsEnabled = page.IsPlusPageButtonEnabled;
         tbPageNumber.Text = page.CurrentPageNumber.ToString();
+    }
+
+    private void MainTabControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        switch (mainTabControl.SelectedIndex)
+        {
+            case 0:
+                SwitchPage(Pages.Vocabulary);
+                break;
+            case 2:
+                SwitchPage(Pages.Translate);
+                break;
+        }
     }
 }

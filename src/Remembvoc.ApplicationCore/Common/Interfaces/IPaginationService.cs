@@ -5,6 +5,7 @@ namespace Remembvoc.ApplicationCore.Common.Interfaces;
 
 public interface IPaginationService
 {
+    public Pages CurrentPageType { get; set; }
     public Page SwitchPage(Pages pages);
     public Page NextPage();
     public Page PreviousPage();

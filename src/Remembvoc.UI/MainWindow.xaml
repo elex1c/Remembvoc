@@ -74,9 +74,9 @@
         <!-- #region Main -->
 
         <Grid Grid.Row="1">
-            <TabControl x:Name="mainTabControl">
+            <TabControl x:Name="mainTabControl" SelectionChanged="MainTabControl_OnSelectionChanged">
                 
-                <TabItem x:Name="tabItemVocabulary" PreviewMouseDown="TabItemVocabulary_OnPreviewMouseDown">
+                <TabItem x:Name="tabItemVocabulary">
                     
                     <TabItem.Header>
                         <TextBlock Text="Vocabulary"/>
@@ -159,7 +159,7 @@
                     </TabItem.Header>
                 </TabItem>
 
-                <TabItem  x:Name="tabItemTranslate" PreviewMouseDown="TabItemTranslate_OnPreviewMouseDown">
+                <TabItem  x:Name="tabItemTranslate">
                     <TabItem.Header>
                         <TextBlock Text="Translate"/>
                     </TabItem.Header>
