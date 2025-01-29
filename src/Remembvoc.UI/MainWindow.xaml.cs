@@ -78,8 +78,8 @@ public partial class MainWindow : Window
 
     private void BtnTranslate_OnClick(object sender, RoutedEventArgs e)
     {
-        if (_translateWordWindow.IsClosed) _translateWordWindow.LoadNewWindow();
         _translateWordWindow.AddPhrase(((Button)sender).Tag.ToString()!);
+        _translateWordWindow.LoadNewWindow();
         _translateWordWindow.ShowDialog();
     }
 

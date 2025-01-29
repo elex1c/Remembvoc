@@ -40,6 +40,7 @@ public partial class TranslateWordWindow : Window, IDisposable
 
     public void LoadNewWindow()
     {
+        tbUserInput.Text = "";
         tbGeneratedSentence.Text = "Generating..";
 
         GenerateTextAsync(this, new RoutedEventArgs());
